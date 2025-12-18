@@ -1,52 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>AI – Teacher Mini</title>
+<style>
+body{font-family:Arial;margin:0}
+nav{background:#2c7be5;padding:12px;position:sticky;top:0}
+nav a{color:white;margin-right:15px;text-decoration:none;font-weight:bold}
+section{padding:40px}
+.box{background:#f1f5ff;padding:20px;margin-top:10px}
+h2{color:#2c7be5}
+button{padding:8px 15px;background:#2c7be5;color:white;border:none}
+input,select{padding:6px;width:300px}
+</style>
+</head>
+
+<body>
+
+<nav>
+  <a href="#gioithieu">Giới thiệu</a>
+  <a href="#giaoan">Giáo án</a>
+  <a href="#danhgia">Đánh giá</a>
+  <a href="#cathehoa">Cá thể hoá</a>
+  <a href="#antoan">An toàn</a>
+</nav>
+
+<section id="gioithieu">
+<h2>Giới thiệu</h2>
+<div class="box">
+AI – Teacher Mini là trợ lý AI hỗ trợ giáo viên tiểu học trong soạn bài,
+đánh giá và cá thể hoá học sinh theo GDPT 2018.
+</div>
+</section>
+
+<section id="giaoan">
+<h2>Soạn giáo án</h2>
+<div class="box">
+<input id="mon" placeholder="Môn học"><br><br>
+<input id="lop" placeholder="Lớp"><br><br>
+<input id="tenbai" placeholder="Tên bài"><br><br>
+<button onclick="taoGiaoAn()">AI tạo giáo án</button>
+<div id="ketqua"></div>
+</div>
+</section>
+
 <section id="danhgia">
-  <h2>AI hỗ trợ đánh giá học sinh (Thông tư 27)</h2>
+<h2>Đánh giá học sinh</h2>
+<div class="box">
+<input id="tenhs" placeholder="Họ tên học sinh"><br><br>
+<input id="mondg" placeholder="Môn học"><br><br>
+<select id="mucdo">
+<option value="tot">Hoàn thành tốt</option>
+<option value="dat">Hoàn thành</option>
+<option value="chua">Chưa hoàn thành</option>
+</select><br><br>
+<button onclick="taoNhanXet()">AI tạo nhận xét</button>
+<div id="nhanxet"></div>
+</div>
+</section>
 
-  <div class="box">
-    <label>Họ tên học sinh:</label><br>
-    <input type="text" id="tenhs"><br><br>
+<section id="cathehoa">
+<h2>Cá thể hoá</h2>
+<div class="box">
+AI gợi ý hoạt động riêng cho từng nhóm học sinh.
+</div>
+</section>
 
-    <label>Môn học:</label><br>
-    <input type="text" id="mondg"><br><br>
-
-    <label>Mức độ hoàn thành:</label><br>
-    <select id="mucdo">
-      <option value="tot">Hoàn thành tốt</option>
-      <option value="dat">Hoàn thành</option>
-      <option value="chua">Chưa hoàn thành</option>
-    </select><br><br>
-
-    <button type="button" onclick="taoNhanXet()">AI tạo nhận xét</button>
-
-    <div id="nhanxet" style="margin-top:15px; font-weight:bold;"></div>
-  </div>
+<section id="antoan">
+<h2>An toàn & đạo đức AI</h2>
+<div class="box">
+Không thu thập dữ liệu cá nhân, hỗ trợ giáo viên dùng AI có trách nhiệm.
+</div>
 </section>
 
 <script>
-  function taoGiaoAn() {
-    ...
-  }
-  function taoNhanXet() {
-  var ten = document.getElementById("tenhs").value;
-  var mon = document.getElementById("mondg").value;
-  var mucdo = document.getElementById("mucdo").value;
-
-  var ketqua = "";
-
-  if (mucdo === "tot") {
-    ketqua = ten + " học tập nghiêm túc, nắm vững kiến thức môn " + mon +
-             ", tích cực tham gia các hoạt động học tập.";
-  } 
-  else if (mucdo === "dat") {
-    ketqua = ten + " hoàn thành yêu cầu môn " + mon +
-             ", cần tiếp tục rèn luyện để nâng cao kỹ năng.";
-  } 
-  else {
-    ketqua = ten + " chưa hoàn thành yêu cầu môn " + mon +
-             ", cần được quan tâm, hỗ trợ thêm trong học tập.";
-  }
-
-  document.getElementById("nhanxet").innerHTML =
-    "Nhận xét gợi ý của AI:<br>" + ketqua;
+function taoGiaoAn(){
+document.getElementById("ketqua").innerHTML="AI đã tạo giáo án theo GDPT 2018.";
 }
 
+function taoNhanXet(){
+var ten=document.getElementById("tenhs").value;
+var mon=document.getElementById("mondg").value;
+var mucdo=document.getElementById("mucdo").value;
+document.getElementById("nhanxet").innerHTML=
+"<p style='color:black'>"+ten+" – "+mon+" – "+mucdo+"</p>";
+}
 </script>
+
+</body>
+</html>
