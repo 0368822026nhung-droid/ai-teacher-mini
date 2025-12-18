@@ -1,50 +1,47 @@
 
 
-  const giaoAn = `
-  <h3>Giáo án AI đề xuất</h3>
+  
+<section id="danhgia">
+  <h2>AI hỗ trợ đánh giá học sinh (Thông tư 27)</h2>
 
-  <strong>Môn học:</strong> ${mon}<br>
-  <strong>Lớp:</strong> ${lop}<br>
-  <strong>Tên bài:</strong> ${tenbai}<br><br>
+  <div class="box">
+    <label>Họ tên học sinh:</label><br>
+    <input id="tenhs"><br><br>
 
-  <strong>I. Mục tiêu</strong>
-  <ul>
-    <li>Phát triển phẩm chất chăm chỉ, trách nhiệm</li>
-    <li>Hình thành và phát triển năng lực đặc thù môn ${mon}</li>
-  </ul>
+    <label>Môn học:</label><br>
+    <input id="mondg"><br><br>
 
-  <strong>II. Chuẩn bị</strong>
-  <ul>
-    <li>Giáo viên: Học liệu, tranh ảnh, thiết bị CNTT</li>
-    <li>Học sinh: Sách giáo khoa, đồ dùng học tập</li>
-  </ul>
+    <label>Mức độ hoàn thành:</label><br>
+    <select id="mucdo">
+      <option>Hoàn thành tốt</option>
+      <option>Hoàn thành</option>
+      <option>Chưa hoàn thành</option>
+    </select><br><br>
 
-  <strong>III. Tiến trình dạy học</strong>
-  <ol>
-    <li><b>Khởi động:</b> Tạo tình huống học tập gắn với nội dung "${tenbai}"</li>
-    <li><b>Hình thành kiến thức:</b> Tổ chức hoạt động khám phá phù hợp học sinh lớp ${lop}</li>
-    <li><b>Luyện tập:</b> Thực hành từ cơ bản đến nâng cao</li>
-    <li><b>Vận dụng:</b> Liên hệ thực tiễn, phát triển năng lực</li>
-  </ol>
+    <button onclick="taoNhanXet()">AI tạo nhận xét</button>
 
-  <strong>IV. Cá thể hóa</strong>
-  <ul>
-    <li>Học sinh còn hạn chế: Hỗ trợ từng bước, dùng học liệu trực quan</li>
-    <li>Học sinh khá giỏi: Giao nhiệm vụ mở rộng</li>
-  </ul>
+    <div id="nhanxet" style="margin-top:15px;"></div>
+  </div>
+</section>
+function taoNhanXet() {
+  const ten = document.getElementById("tenhs").value;
+  const mon = document.getElementById("mondg").value;
+  const mucdo = document.getElementById("mucdo").value;
 
-  <strong>V. Tích hợp</strong>
-  <ul>
-    <li>Kĩ năng sống</li>
-    <li>STEM (nếu phù hợp)</li>
-    <li>Ứng dụng CNTT</li>
-  </ul>
-  `;
+  let nhanxet = "";
 
-  document.getElementById("ketqua").innerHTML = giaoAn;
+  if (mucdo === "Hoàn thành tốt") {
+    nhanxet = `${ten} học tập nghiêm túc, nắm vững kiến thức môn ${mon}, tích cực tham gia các hoạt động học tập.`;
+  } else if (mucdo === "Hoàn thành") {
+    nhanxet = `${ten} cơ bản hoàn thành yêu cầu môn ${mon}, cần tiếp tục rèn luyện để nâng cao kỹ năng.`;
+  } else {
+    nhanxet = `${ten} chưa hoàn thành yêu cầu môn ${mon}, cần được quan tâm và hỗ trợ thêm trong học tập.`;
+  }
+
+  document.getElementById("nhanxet").innerHTML =
+    "<b>Nhận xét gợi ý:</b><br>" + nhanxet;
 }
-</script> 
-</body>
+
 
 
 
