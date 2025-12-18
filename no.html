@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<title>AI – Teacher Mini (Demo)</title>
+<style>
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f8;
+  margin: 0;
+}
+header {
+  background: #2b7cff;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+nav {
+  display: flex;
+  justify-content: center;
+  background: #e6ecff;
+}
+nav button {
+  margin: 8px;
+  padding: 10px 16px;
+  border: none;
+  background: #2b7cff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+nav button:hover {
+  background: #1f5fd1;
+}
+section {
+  display: none;
+  padding: 20px;
+}
+section.active {
+  display: block;
+}
+.box {
+  background: white;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+textarea {
+  width: 100%;
+  height: 90px;
+}
+.output {
+  background: #eef3ff;
+  padding: 10px;
+  border-radius: 5px;
+  white-space: pre-line;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <h1>AI – Teacher Mini</h1>
+  <p>Trợ lý AI hỗ trợ giáo viên tiểu học (Demo)</p>
+</header>
+
+<nav>
+  <button onclick="show('intro')">Giới thiệu</button>
+  <button onclick="show('lesson')">Soạn bài</button>
+  <button onclick="show('assessment')">Đánh giá</button>
+  <button onclick="show('personal')">Cá thể hoá</button>
+  <button onclick="show('security')">An toàn</button>
+</nav>
+
+<!-- GIỚI THIỆU -->
+<section id="intro" class="active">
+  <div class="box">
+    <h2>Giới thiệu sản phẩm</h2>
+    <p>
+      AI – Teacher Mini là trợ lý trí tuệ nhân tạo hỗ trợ giáo viên tiểu học,
+      đặc biệt là lớp 1, trong soạn bài, kiểm tra – đánh giá và cá thể hoá học sinh
+      theo chương trình GDPT 2018.
+    </p>
+  </div>
+</section>
+
+<!-- SOẠN BÀI -->
+<section id="lesson">
+  <div class="box">
+    <h2>AI hỗ trợ soạn giáo án</h2>
+    <p>Giáo viên nhập yêu cầu:</p>
+    <textarea>
+Môn: Tiếng Việt – Lớp 1
+Bài: oi – ôi – ơi
+Yêu cầu: Dạy theo hướng phát triển năng lực
+    </textarea>
+    <br><br>
+    <button onclick="generateLesson()">AI tạo giáo án</button>
+  </div>
+
+  <div class="box">
+    <h3>Kết quả AI đề xuất</h3>
+    <div id="lessonOutput" class="output"></div>
+  </div>
+</section>
+
+<!-- ĐÁNH GIÁ -->
+<section id="assessment">
+  <div class="box">
+    <h2>AI hỗ trợ kiểm tra – đánh giá</h2>
+    <button onclick="generateAssessment()">AI tạo nhận xét</button>
+  </div>
+
+  <div class="box">
+    <div id="assessmentOutput" class="output"></div>
+  </div>
+</section>
+
+<!-- CÁ THỂ HOÁ -->
+<section id="personal">
+  <div class="box">
+    <h2>AI cá thể hoá học sinh</h2>
+    <button onclick="generatePersonal()">AI gợi ý hỗ trợ</button>
+  </div>
+
+  <div class="box">
+    <div id="personalOutput" class="output"></div>
+  </div>
+</section>
+
+<!-- AN TOÀN -->
+<section id="security">
+  <div class="box">
+    <h2>An toàn – đạo đức – bảo mật</h2>
+    <p>
+      Sản phẩm không lưu trữ dữ liệu cá nhân học sinh.  
+      AI chỉ đóng vai trò hỗ trợ, giáo viên là người quyết định cuối cùng.
+    </p>
+  </div>
+</section>
+
+<script>
+function show(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+}
+
+function generateLesson() {
+  document.getElementById("lessonOutput").innerText =
+`Mục tiêu:
+- Nhận biết và đọc đúng vần oi – ôi – ơi
+- Phát triển năng lực ngôn ngữ
+
+Tiến trình:
+1. Khởi động: Trò chơi nghe âm – đoán vần
+2. Hình thành kiến thức: Nhận diện vần qua tranh
+3. Luyện tập: Đọc – viết
+4. Vận dụng: Đặt câu`;
+}
+
+function generateAssessment() {
+  document.getElementById("assessmentOutput").innerText =
+`Học sinh A: Đọc đúng, còn chậm → Cần luyện đọc thêm.
+Học sinh B: Đọc trôi chảy → Khuyến khích đọc diễn cảm.`;
+}
+
+function generatePersonal() {
+  document.getElementById("personalOutput").innerText =
+`HS yếu: Luyện âm – vần qua trò chơi.
+HS đạt: Củng cố kiến thức cơ bản.
+HS khá: Mở rộng và sáng tạo.`;
+}
+</script>
+
+</body>
+</html>
