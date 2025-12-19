@@ -66,15 +66,16 @@
   </style>
 </head>
 <script>
-function generateLesson() {
-    const lesson = document.getElementById("lesson").value;
-    const grade = document.getElementById("grade").value;
-    const goal = document.getElementById("goal").value;
+<button onclick="generateLesson()" style="padding:10px 20px; font-size:16px;">
+📋 Tạo nội dung soạn giáo án
+</button>
 
-    if (!lesson || !grade || !goal) {
-        alert("Vui lòng nhập đầy đủ thông tin trước khi soạn giáo án.");
-        return;
-    }
+<textarea id="result" rows="12" style="width:100%; margin-top:15px; padding:10px;"
+placeholder="Nội dung giáo án gợi ý sẽ hiển thị tại đây để giáo viên sao chép sang AI..."></textarea>
+
+<p style="font-style:italic;">
+👉 Sau khi bấm nút, hãy sao chép toàn bộ nội dung và dán vào ChatGPT để nhận giáo án hoàn chỉnh.
+</p>
 
     const prompt = `
 Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
@@ -97,8 +98,7 @@ Yêu cầu:
 Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
     `;
 
-    const url = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
-    window.open(url, "_blank");
+    document.getElementById("result").value = prompt;
 }
 </script>
 
@@ -198,4 +198,5 @@ placeholder="Ví dụ: Học sinh nhận biết phép cộng, biết vận dụn
 
 </body>
 </html>
+
 
