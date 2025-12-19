@@ -65,6 +65,42 @@
     }
   </style>
 </head>
+<script>
+function generateLesson() {
+    const lesson = document.getElementById("lesson").value;
+    const grade = document.getElementById("grade").value;
+    const goal = document.getElementById("goal").value;
+
+    if (!lesson || !grade || !goal) {
+        alert("Vui lòng nhập đầy đủ thông tin trước khi soạn giáo án.");
+        return;
+    }
+
+    const prompt = `
+Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
+
+Hãy soạn giáo án cho:
+- Lớp: ${grade}
+- Bài học: ${lesson}
+- Mục tiêu: ${goal}
+
+Yêu cầu:
+1. Mục tiêu bài học
+2. Chuẩn bị
+3. Hoạt động khởi động
+4. Hình thành kiến thức
+5. Luyện tập
+6. Vận dụng
+7. Đánh giá học sinh
+8. Gợi ý cá thể hoá cho học sinh yếu
+
+Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
+    `;
+
+    const url = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
+    window.open(url, "_blank");
+}
+</script>
 
 <body>
 
@@ -88,40 +124,33 @@
   </div>
 </section>
 
-<!-- SOẠN GIÁO ÁN -->
-<section id="soangiaoan">
-  <h2>Soạn giáo án tự động</h2>
-  <div class="box">
-    <p>Giáo viên nhập thông tin bài dạy, AI hỗ trợ gợi ý khung giáo án phù hợp chương trình GDPT 2018.</p>
+<<hr>
 
-    <label>Môn học:</label>
-    <select>
-      <option>Tiếng Việt</option>
-      <option>Toán</option>
-      <option>Tự nhiên và Xã hội</option>
-      <option>Hoạt động trải nghiệm</option>
-    </select>
+<h2>📘 Soạn giáo án tự động bằng AI</h2>
+<p>
+Công cụ hỗ trợ giáo viên tiểu học soạn giáo án nhanh theo định hướng chương trình GDPT 2018.
+Giáo viên nhập thông tin bài dạy, hệ thống sẽ mở AI với nội dung gợi ý giáo án phù hợp.
+</p>
 
-    <label>Lớp:</label>
-    <select>
-      <option>Lớp 1</option>
-      <option>Lớp 2</option>
-      <option>Lớp 3</option>
-      <option>Lớp 4</option>
-      <option>Lớp 5</option>
-    </select>
+<label><strong>Tên bài học:</strong></label><br>
+<input type="text" id="lesson" style="width:100%; padding:8px;"
+placeholder="Ví dụ: Bài 12 – Phép cộng trong phạm vi 10"><br><br>
 
-    <label>Tên bài:</label>
-    <input type="text" placeholder="Ví dụ: Phép cộng trong phạm vi 10">
+<label><strong>Lớp:</strong></label><br>
+<input type="text" id="grade" style="width:100%; padding:8px;"
+placeholder="Ví dụ: Lớp 1"><br><br>
 
-    <label>Mục tiêu bài học:</label>
-    <textarea rows="4" placeholder="Nhập mục tiêu kiến thức, kĩ năng, phẩm chất, năng lực..."></textarea>
+<label><strong>Mục tiêu bài học:</strong></label><br>
+<textarea id="goal" rows="4" style="width:100%; padding:8px;"
+placeholder="Ví dụ: Học sinh nhận biết phép cộng, biết vận dụng vào bài tập đơn giản..."></textarea><br><br>
 
-    <button>Gợi ý giáo án</button>
+<button onclick="generateLesson()" style="padding:10px 20px; font-size:16px;">
+🚀 Soạn giáo án bằng AI
+</button>
 
-    <p><i>(Phiên bản demo: AI hiển thị khung gợi ý, giáo viên chỉnh sửa và hoàn thiện.)</i></p>
-  </div>
-</section>
+<p style="margin-top:10px; font-style:italic;">
+📌 Lưu ý: AI chỉ mang tính hỗ trợ. Giáo viên là người quyết định nội dung cuối cùng.
+</p>
 
 <!-- ĐÁNH GIÁ -->
 <section id="danhgia">
@@ -169,3 +198,4 @@
 
 </body>
 </html>
+
