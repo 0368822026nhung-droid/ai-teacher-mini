@@ -1,26 +1,16 @@
 <!DOCTYPE html>
 <html lang="vi">
-<hr>
+<button onclick="generateLesson()" style="padding:10px 20px; font-size:16px;">
+📋 Tạo nội dung soạn giáo án
+</button>
 
-<h2>📘 Soạn giáo án tự động bằng AI</h2>
-<p>
-Công cụ hỗ trợ giáo viên tiểu học soạn giáo án nhanh theo định hướng chương trình GDPT 2018.
-Giáo viên nhập thông tin bài dạy, hệ thống sẽ mở AI với nội dung gợi ý giáo án phù hợp.
+<textarea id="result" rows="12" style="width:100%; margin-top:15px; padding:10px;"
+placeholder="Nội dung giáo án gợi ý sẽ hiển thị tại đây để giáo viên sao chép sang AI..."></textarea>
+
+<p style="font-style:italic;">
+👉 Sau khi bấm nút, hãy sao chép toàn bộ nội dung và dán vào ChatGPT để nhận giáo án hoàn chỉnh.
 </p>
 
-<label><strong>Tên bài học:</strong></label><br>
-<input type="text" id="lesson" style="width:100%; padding:8px;"
-placeholder="Ví dụ: Bài 12 – Phép cộng trong phạm vi 10"><br><br>
-
-<label><strong>Lớp:</strong></label><br>
-<input type="text" id="grade" style="width:100%; padding:8px;"
-placeholder="Ví dụ: Lớp 1"><br><br>
-
-<label><strong>Mục tiêu bài học:</strong></label><br>
-<textarea id="goal" rows="4" style="width:100%; padding:8px;"
-placeholder="Ví dụ: Học sinh nhận biết phép cộng, biết vận dụng vào bài tập đơn giản..."></textarea><br><br>
-
-<button onclick="generateLesson()" style="padding:10px 20px; font-size:16px;">
 🚀 Soạn giáo án bằng AI
 </button>
 
@@ -68,6 +58,41 @@ Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
 
     const url = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
     window.open(url, "_blank");
+}
+</script>
+<script>
+function generateLesson() {
+    const lesson = document.getElementById("lesson").value;
+    const grade = document.getElementById("grade").value;
+    const goal = document.getElementById("goal").value;
+
+    if (!lesson || !grade || !goal) {
+        alert("Vui lòng nhập đầy đủ thông tin trước khi tạo nội dung.");
+        return;
+    }
+
+    const prompt = `
+Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
+
+Hãy soạn giáo án cho:
+- Lớp: ${grade}
+- Bài học: ${lesson}
+- Mục tiêu: ${goal}
+
+Yêu cầu:
+1. Mục tiêu bài học
+2. Chuẩn bị
+3. Hoạt động khởi động
+4. Hình thành kiến thức
+5. Luyện tập
+6. Vận dụng
+7. Đánh giá học sinh
+8. Gợi ý cá thể hoá cho học sinh yếu
+
+Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
+    `;
+
+    document.getElementById("result").value = prompt;
 }
 </script>
 
@@ -234,4 +259,5 @@ Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
 
 </body>
 </html>
+
 
