@@ -1,59 +1,5 @@
 <!DOCTYPE html>
 <html lang="vi">
-
-  <head>
-  <meta charset="UTF-8">
-  <title>AI – Teacher Mini</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <style>
-  <script>
-function generateLesson() {
-    const lesson = document.getElementById("lesson").value;
-    const grade = document.getElementById("grade").value;
-    const goal = document.getElementById("goal").value;
-
-    if (!lesson || !grade || !goal) {
-        alert("Vui lòng nhập đầy đủ thông tin trước khi soạn giáo án.");
-        return;
-    }
-
-    const prompt = `
-Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
-
-Hãy soạn giáo án cho:
-- Lớp: ${grade}
-- Bài học: ${lesson}
-- Mục tiêu: ${goal}
-
-Yêu cầu:
-1. Mục tiêu bài học
-2. Chuẩn bị
-3. Hoạt động khởi động
-4. Hình thành kiến thức
-5. Luyện tập
-6. Vận dụng
-7. Đánh giá học sinh
-8. Gợi ý cá thể hoá cho học sinh yếu
-
-Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
-    `;
-
-    const url = "https://chat.openai.com/?q=" + encodeURIComponent(prompt);
-    window.open(url, "_blank");
-}
-</script>
-<script>
-function generateLesson() {
-    const lesson = document.getElementById("lesson").value;
-    const grade = document.getElementById("grade").value;
-    const goal = document.getElementById("goal").value;
-
-    if (!lesson || !grade || !goal) {
-        alert("Vui lòng nhập đầy đủ thông tin trước khi tạo nội dung.");
-        return;
-    }
-
     const prompt = `
 Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
 
@@ -242,6 +188,7 @@ Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
 
 </body>
 </html>
+
 
 
 
