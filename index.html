@@ -1,102 +1,191 @@
+
 <!DOCTYPE html>
 <html lang="vi">
-<section id="tongquan">
-  <h2>Trang tổng quan</h2>
+<head>
+    <meta charset="UTF-8">
+    <title>AI – Teacher Mini</title>
 
-  <div style="background:#f2f7ff; padding:15px; border-radius:8px; margin-bottom:20px;">
-    <p><b>Tên sản phẩm:</b> AI – Teacher Mini (Trợ lý AI hỗ trợ giáo viên tiểu học)</p>
-    <p><b>Tác giả:</b> Trịnh Thị Nhung</p>
-    <p><b>Đơn vị công tác:</b> Trường PTDTBT Tiểu học Trung Thu</p>
-    <p><b>Địa chỉ:</b> Thôn Trung Thu, xã Sính Phình, tỉnh Điện Biên</p>
-    <p><b>Mô tả ngắn:</b> Sản phẩm ứng dụng trí tuệ nhân tạo nhằm hỗ trợ giáo viên
-    trong soạn bài, nhận xét – đánh giá học sinh và cá thể hoá dạy học theo
-    Chương trình GDPT 2018. AI đóng vai trò gợi ý, giáo viên là người quyết định.</p>
-  </div>
-</section>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            line-height: 1.6;
+            background: #f9f9f9;
+        }
 
-  <head>
-  <meta charset="UTF-8">
-  <title>AI – Teacher Mini</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      line-height: 1.6;
-    }
-    nav {
-      background: #2c7be5;
-      padding: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-    nav a {
-      color: white;
-      margin-right: 18px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    section {
-      padding: 40px;
-    }
-    h2 {
-      color: #2c7be5;
-    }
-    .box {
-      background: #f1f5ff;
-      padding: 20px;
-      border-radius: 6px;
-    }
-    input, select {
-      padding: 6px;
-      width: 320px;
-      margin-bottom: 10px;
-    }
-    button {
-      padding: 8px 18px;
-      background: #2c7be5;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #1f5fc4;
-    }
-  </style>
+        nav {
+            background: #2c7be5;
+            padding: 12px;
+            position: sticky;
+            top: 0;
+        }
+
+        nav a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        section {
+            padding: 25px;
+        }
+
+        .box {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.08);
+        }
+
+        footer {
+            background: #eee;
+            padding: 10px;
+            text-align: center;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
-<section id="giaoduc">
-  <h2>Soạn bài – Giáo án</h2>
-  <p>AI hỗ trợ giáo viên gợi ý giáo án theo môn học, lớp học và bài dạy
-  theo định hướng Chương trình GDPT 2018. Nội dung mang tính tham khảo,
-  giáo viên chủ động điều chỉnh cho phù hợp với thực tế lớp học.</p>
-</section>
-
-<section id="danhgia">
-  <h2>Đánh giá học sinh</h2>
-  <p>AI hỗ trợ giáo viên đưa ra các nhận xét gợi ý theo Thông tư 27,
-  giúp giáo viên tiết kiệm thời gian trong quá trình đánh giá thường xuyên.</p>
-</section>
-
-<section id="cathehoa">
-  <h2>Cá thể hoá học sinh</h2>
-  <p>AI đề xuất hoạt động học tập phù hợp với từng nhóm đối tượng học sinh,
-  góp phần nâng cao hiệu quả dạy học và đảm bảo mọi học sinh đều được hỗ trợ.</p>
-</section>
-
-<section id="antoan">
-  <h2>An toàn và đạo đức AI</h2>
-  <p>Sản phẩm được thiết kế theo nguyên tắc an toàn, không thu thập dữ liệu cá nhân
-  của học sinh. AI chỉ đóng vai trò hỗ trợ, giáo viên là người chịu trách nhiệm
-  trong việc sử dụng kết quả gợi ý.</p>
-</section>
 
 <nav>
-  <a href="#gioithieu">Giới thiệu</a>
-  <a href="#giaoan">Soạn giáo án</a>
-  <a href="#danhgia">Đánh giá</a>
-  <a href="#cathehoa">Cá thể hoá</a>
-  <a hre
+    <a href="index.html">Trang chủ</a>
+    <a href="danh-gia.html">Đánh giá</a>
+    <a href="ca-the-hoa.html">Cá thể hoá</a>
+    <a href="an-toan.html">An toàn</a>
+</nav>
+
+<section>
+    <div class="box">
+        <h2>AI – Teacher Mini (Trợ lý AI hỗ trợ giáo viên tiểu học)</h2>
+
+        <p><b>Tác giả:</b> Trịnh Thị Nhung</p>
+        <p><b>Đơn vị công tác:</b> Trường PTDTBT Tiểu học Trung Thu</p>
+        <p><b>Địa chỉ:</b> Thôn Trung Thu, xã Sính Phình, tỉnh Điện Biên</p>
+
+        <p>
+            <b>Mô tả sản phẩm:</b><br>
+            AI – Teacher Mini là sản phẩm ứng dụng trí tuệ nhân tạo trong hoạt động giáo dục,
+            hỗ trợ giáo viên tiểu học trong soạn bài, nhận xét – đánh giá học sinh và
+            cá thể hoá hoạt động dạy học theo Chương trình GDPT 2018.
+            AI đóng vai trò trợ lý gợi ý, giáo viên là người quyết định cuối cùng,
+            đảm bảo đúng định hướng sư phạm và phù hợp thực tế lớp học.
+        </p>
+    </div>
+</section>
+
+<footer>
+    © 2025 – AI Teacher Mini | Giáo viên là trung tâm – AI là trợ lý
+</footer>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>AI – Teacher Mini | Đánh giá</title>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Trang chủ</a>
+    <a href="danh-gia.html">Đánh giá</a>
+    <a href="ca-the-hoa.html">Cá thể hoá</a>
+    <a href="an-toan.html">An toàn</a>
+</nav>
+
+<section>
+    <h2>Ứng dụng AI trong đánh giá học sinh</h2>
+
+    <p>
+        AI – Teacher Mini hỗ trợ giáo viên trong việc:
+    </p>
+
+    <ul>
+        <li>Gợi ý nhận xét học sinh theo Thông tư 27.</li>
+        <li>Nhận xét phù hợp năng lực, phẩm chất từng em.</li>
+        <li>Tiết kiệm thời gian viết nhận xét cuối kì.</li>
+    </ul>
+
+    <p>
+        Giáo viên là người lựa chọn, chỉnh sửa và chịu trách nhiệm
+        đối với nội dung đánh giá. AI không thay thế vai trò của giáo viên.
+    </p>
+</section>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>AI – Teacher Mini | Cá thể hoá</title>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Trang chủ</a>
+    <a href="danh-gia.html">Đánh giá</a>
+    <a href="ca-the-hoa.html">Cá thể hoá</a>
+    <a href="an-toan.html">An toàn</a>
+</nav>
+
+<section>
+    <h2>Cá thể hoá hoạt động dạy học</h2>
+
+    <p>
+        AI – Teacher Mini hỗ trợ giáo viên xây dựng hoạt động học tập
+        phù hợp với từng đối tượng học sinh:
+    </p>
+
+    <ul>
+        <li>Học sinh yếu: gợi ý bài tập đơn giản, trực quan.</li>
+        <li>Học sinh trung bình: bài tập củng cố – luyện tập.</li>
+        <li>Học sinh khá giỏi: bài tập mở rộng, phát triển tư duy.</li>
+    </ul>
+
+    <p>
+        Việc cá thể hoá giúp học sinh tiến bộ theo đúng nhịp độ,
+        giảm áp lực học tập và tăng hứng thú đến lớp.
+    </p>
+</section>
+
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>AI – Teacher Mini | An toàn</title>
+</head>
+<body>
+
+<nav>
+    <a href="index.html">Trang chủ</a>
+    <a href="danh-gia.html">Đánh giá</a>
+    <a href="ca-the-hoa.html">Cá thể hoá</a>
+    <a href="an-toan.html">An toàn</a>
+</nav>
+
+<section>
+    <h2>Đảm bảo an toàn và đạo đức khi sử dụng AI</h2>
+
+    <ul>
+        <li>Không thu thập dữ liệu cá nhân của học sinh.</li>
+        <li>Không lưu trữ hình ảnh, thông tin riêng tư.</li>
+        <li>AI chỉ đóng vai trò hỗ trợ, không thay thế giáo viên.</li>
+        <li>Nội dung sử dụng phù hợp lứa tuổi tiểu học.</li>
+    </ul>
+
+    <p>
+        Việc sử dụng AI trong giáo dục luôn đặt yếu tố an toàn,
+        đạo đức và định hướng sư phạm lên hàng đầu.
+    </p>
+</section>
+
+</body>
+</html>
 
 
