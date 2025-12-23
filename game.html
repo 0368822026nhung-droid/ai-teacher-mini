@@ -1,0 +1,166 @@
+<<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Trí Tuệ - AI Teacher Mini</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background: #f0f8ff;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+    }
+
+    header {
+        background: #4a90e2;
+        color: white;
+        padding: 15px;
+        font-size: 26px;
+        font-weight: bold;
+        letter-spacing: 1px;
+    }
+
+    #game-box {
+        margin: 20px auto;
+        width: 90%;
+        max-width: 600px;
+        background: white;
+        padding: 20px;
+        border-radius: 14px;
+        box-shadow: 0 0 18px rgba(0,0,0,0.2);
+    }
+
+    .question {
+        font-size: 22px;
+        margin-bottom: 20px;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .btn {
+        background: #4a90e2;
+        color: white;
+        padding: 14px 18px;
+        display: block;
+        margin: 10px auto;
+        width: 90%;
+        border-radius: 10px;
+        font-size: 18px;
+        cursor: pointer;
+        border: none;
+        transition: 0.3s;
+    }
+
+    .btn:hover {
+        background: #357abd;
+    }
+
+    #result {
+        margin-top: 20px;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .correct {
+        color: green;
+    }
+    .wrong {
+        color: red;
+    }
+
+    /* Hiệu ứng pháo hoa */
+    #fireworks {
+        position: fixed;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        pointer-events: none;
+        display: none;
+    }
+</style>
+</head>
+
+<body>
+
+<header>🎮 GAME TRÍ TUỆ – AI TEACHER MINI</header>
+
+<div id="game-box">
+    <div class="question" id="question">Đang tải câu hỏi...</div>
+
+    <button class="btn" onclick="checkAnswer(0)" id="btn0"></button>
+    <button class="btn" onclick="checkAnswer(1)" id="btn1"></button>
+    <button class="btn" onclick="checkAnswer(2)" id="btn2"></button>
+
+    <div id="result"></div>
+</div>
+
+<canvas id="fireworks"></canvas>
+
+<script>
+    // --- Danh sách câu hỏi trí tuệ ---
+    const questions = [
+        {
+            q: "Con gì buổi sáng gáy ò ó o?",
+            a: ["Con gà", "Con vịt", "Con mèo"],
+            correct: 0
+        },
+        {
+            q: "Trên đồng có 5 con trâu, 2 con đi mất. Còn lại mấy con?",
+            a: ["3 con", "4 con", "5 con"],
+            correct: 0
+        },
+        {
+            q: "Quả gì màu đỏ, tròn, ăn giòn và mọng nước?",
+            a: ["Quả ớt", "Quả táo", "Quả chuối"],
+            correct: 1
+        },
+        {
+            q: "Trong từ 'học sinh', tiếng nào là tiếng chứa vần 'inh'?",
+            a: ["học", "sinh", "cả hai"],
+            correct: 1
+        }
+    ];
+
+    let current = 0;
+
+    function loadQuestion() {
+        const q = questions[current];
+        document.getElementById("question").innerText = q.q;
+        document.getElementById("btn0").innerText = q.a[0];
+        document.getElementById("btn1").innerText = q.a[1];
+        document.getElementById("btn2").innerText = q.a[2];
+        document.getElementById("result").innerText = "";
+    }
+
+    function checkAnswer(choice) {
+        const q = questions[current];
+
+        if (choice === q.correct) {
+            document.getElementById("result").innerHTML = "<span class='correct'>🎉 Chính xác!</span>";
+            showFireworks();
+
+            setTimeout(() => {
+                current = (current + 1) % questions.length;
+                loadQuestion();
+            }, 1800);
+
+        } else {
+            document.getElementById("result").innerHTML = "<span class='wrong'>❌ Sai rồi! Hãy thử lại nhé.</span>";
+        }
+    }
+
+    // Hiệu ứng pháo hoa mini
+    function showFireworks() {
+        const fw = document.getElementById("fireworks");
+        fw.style.display = "block";
+        setTimeout(() => { fw.style.display = "none"; }, 1200);
+    }
+
+    loadQuestion();
+</script>
+
+</body>
+</html>
+
