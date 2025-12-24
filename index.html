@@ -1,194 +1,87 @@
 <!DOCTYPE html>
 <html lang="vi">
-    const prompt = `
-Bạn là giáo viên tiểu học dạy theo chương trình GDPT 2018.
-
-Hãy soạn giáo án cho:
-- Lớp: ${grade}
-- Bài học: ${lesson}
-- Mục tiêu: ${goal}
-
-Yêu cầu:
-1. Mục tiêu bài học
-2. Chuẩn bị
-3. Hoạt động khởi động
-4. Hình thành kiến thức
-5. Luyện tập
-6. Vận dụng
-7. Đánh giá học sinh
-8. Gợi ý cá thể hoá cho học sinh yếu
-
-Viết ngắn gọn, rõ ràng, dễ áp dụng trong lớp học tiểu học.
-    `;
-
-    document.getElementById("result").value = prompt;
-}
-</script>
-
+<head>
+<meta charset="UTF-8">
+<title>AI – Teacher Mini</title>
+<style>
     body {
-      font-family: Arial, sans-serif;
-      margin: 0;
-      line-height: 1.6;
-      background: #f4f6f8;
+        font-family: Arial, sans-serif;
+        background: #f4f6f8;
+        margin: 0;
+        padding: 0;
+        line-height: 1.6;
     }
     nav {
-      background: #2c7be5;
-      padding: 12px;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
+        background: #2c7be5;
+        padding: 12px;
+        position: sticky;
+        top: 0;
     }
     nav a {
-      color: white;
-      margin-right: 15px;
-      text-decoration: none;
-      font-weight: bold;
+        color: white;
+        margin-right: 18px;
+        text-decoration: none;
+        font-weight: bold;
     }
     nav a:hover {
-      text-decoration: underline;
-    }
-    section {
-      padding: 20px;
+        text-decoration: underline;
     }
     h2 {
-      color: #2c7be5;
+        color: #2c7be5;
     }
     .box {
-      background: #ffffff;
-      padding: 20px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    input, select, textarea {
-      width: 100%;
-      padding: 8px;
-      margin-bottom: 10px;
+        background: white;
+        padding: 15px;
+        margin: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
     button {
-      background: #2c7be5;
-      color: white;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      cursor: pointer;
+        background: #2c7be5;
+        color: white;
+        border: none;
+        padding: 10px 16px;
+        border-radius: 6px;
+        cursor: pointer;
     }
     button:hover {
-      background: #1b5fc1;
+        background: #1b5fc9;
     }
-    footer {
-      background: #e9ecef;
-      text-align: center;
-      padding: 15px;
-      font-size: 14px;
-    }
-  </style>
+</style>
 </head>
-
 <body>
 
 <nav>
-  <a href="#gioithieu">Giới thiệu</a>
-  <a href="#soangiaoan">Soạn giáo án tự động</a>
-  <a href="#danhgia">Đánh giá</a>
-  <a href="#cathehoa">Cá thể hoá</a>
-  <a href="#antoan">An toàn</a>
+    <a href="index.html">Trang chủ</a>
+    <a href="game.html">Trò chơi</a>
 </nav>
 
-<!-- GIỚI THIỆU -->
-<section id="gioithieu">
-  <h2>Giới thiệu sản phẩm</h2>
-  <div class="box">
+<div class="box">
+    <h2>Giới thiệu sản phẩm</h2>
     <p><b>Tên sản phẩm:</b> AI – Teacher Mini (Trợ lý AI hỗ trợ giáo viên tiểu học)</p>
     <p><b>Tác giả:</b> Trịnh Thị Nhung</p>
     <p><b>Đơn vị công tác:</b> Trường PTDTBT Tiểu học Trung Thu</p>
-    <p><b>Địa chỉ:</b> Thôn Trung Thu, xã Sính Phình, tỉnh Điện Biên</p>
-    <p><b>Mô tả ngắn:</b> Sản phẩm ứng dụng trí tuệ nhân tạo nhằm hỗ trợ giáo viên trong soạn bài, nhận xét – đánh giá học sinh và cá thể hoá dạy học theo Chương trình GDPT 2018. AI đóng vai trò gợi ý, giáo viên là người quyết định cuối cùng.</p>
-  </div>
-</section>
+    <p><b>Mô tả:</b> Công cụ hỗ trợ soạn bài, đánh giá, cá thể hoá dạy học…</p>
+</div>
 
-<!-- SOẠN GIÁO ÁN -->
-<section id="soangiaoan">
-  <h2>Soạn giáo án tự động</h2>
-  <div class="box">
-    <p>Giáo viên nhập thông tin bài dạy, AI hỗ trợ gợi ý khung giáo án phù hợp chương trình GDPT 2018.</p>
+<div class="box">
+    <h2>Soạn giáo án tự động</h2>
+    <textarea id="inputLesson" rows="3" style="width:100%;" placeholder="Nhập yêu cầu bài dạy..."></textarea>
+    <br><br>
+    <button onclick="generateLesson()">Tạo giáo án</button>
+    <p><b>Kết quả:</b></p>
+    <div id="result" style="white-space:pre-wrap;background:#fff;padding:10px;border-radius:6px;"></div>
+</div>
 
-    <label>Môn học:</label>
-    <select>
-      <option>Tiếng Việt</option>
-      <option>Toán</option>
-      <option>Tự nhiên và Xã hội</option>
-      <option>Hoạt động trải nghiệm</option>
-    </select>
-
-    <label>Lớp:</label>
-    <select>
-      <option>Lớp 1</option>
-      <option>Lớp 2</option>
-      <option>Lớp 3</option>
-      <option>Lớp 4</option>
-      <option>Lớp 5</option>
-    </select>
-
-    <label>Tên bài:</label>
-    <input type="text" placeholder="Ví dụ: Phép cộng trong phạm vi 10">
-
-    <label>Mục tiêu bài học:</label>
-    <textarea rows="4" placeholder="Nhập mục tiêu kiến thức, kĩ năng, phẩm chất, năng lực..."></textarea>
-
-    <button>Gợi ý giáo án</button>
-
-    <p><i>(Phiên bản demo: AI hiển thị khung gợi ý, giáo viên chỉnh sửa và hoàn thiện.)</i></p>
-  </div>
-</section>
-
-<!-- ĐÁNH GIÁ -->
-<section id="danhgia">
-  <h2>Hỗ trợ đánh giá học sinh</h2>
-  <div class="box">
-    <p>AI gợi ý nhận xét học sinh theo hướng đánh giá vì sự tiến bộ, phù hợp Thông tư 27.</p>
-    <ul>
-      <li>Gợi ý nhận xét học tập</li>
-      <li>Gợi ý nhận xét năng lực, phẩm chất</li>
-      <li>Ngôn ngữ tích cực, dễ điều chỉnh</li>
-    </ul>
-  </div>
-</section>
-
-<!-- CÁ THỂ HOÁ -->
-<section id="cathehoa">
-  <h2>Cá thể hoá dạy học</h2>
-  <div class="box">
-    <p>AI hỗ trợ giáo viên phân hoá đối tượng học sinh:</p>
-    <ul>
-      <li>Học sinh hoàn thành tốt</li>
-      <li>Học sinh hoàn thành</li>
-      <li>Học sinh cần hỗ trợ</li>
-    </ul>
-    <p>Gợi ý nhiệm vụ học tập phù hợp từng nhóm.</p>
-  </div>
-</section>
-
-<!-- AN TOÀN -->
-<section id="antoan">
-  <h2>An toàn và đạo đức AI</h2>
-  <div class="box">
-    <ul>
-      <li>Không thu thập dữ liệu cá nhân học sinh</li>
-      <li>Không thay thế vai trò giáo viên</li>
-      <li>Giáo viên kiểm soát nội dung đầu ra</li>
-      <li>Phù hợp môi trường giáo dục tiểu học</li>
-    </ul>
-  </div>
-</section>
-
-<footer>
-  © 2025 – AI Teacher Mini | Trịnh Thị Nhung
-</footer>
+<script>
+function generateLesson() {
+    const text = document.getElementById("inputLesson").value;
+    document.getElementById("result").innerText =
+        "Đây là bản nháp giáo án cho yêu cầu:\n" + text;
+}
+</script>
 
 </body>
 </html>
-
-
 
 
