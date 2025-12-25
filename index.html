@@ -2,88 +2,381 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <title>AI – Teacher Mini</title>
 <style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f4f6f8;
-        margin: 0;
-        padding: 0;
-        line-height: 1.6;
-    }
-    nav {
-        background: #2c7be5;
-        padding: 12px;
-        position: sticky;
-        top: 0;
-    }
-    nav a {
-        color: white;
-        margin-right: 18px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-    nav a:hover {
-        text-decoration: underline;
-    }
-    h2 {
-        color: #2c7be5;
-    }
-    .box {
-        background: white;
-        padding: 15px;
-        margin: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    button {
-        background: #2c7be5;
-        color: white;
-        border: none;
-        padding: 10px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-    }
-    button:hover {
-        background: #1b5fc9;
-    }
+  :root{
+    --blue:#2c7be5;
+    --bg:#0f1217;
+    --card:#171c24;
+    --text:#e9eef7;
+    --muted:#b8c3d6;
+    --line:rgba(255,255,255,.08);
+    --good:#2ecc71;
+    --warn:#f1c40f;
+    --bad:#e74c3c;
+  }
+  *{box-sizing:border-box}
+  body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(180deg,#0b0d12,#0f1217 30%, #0b0d12);
+    margin:0; padding:0; line-height:1.6;
+    color:var(--text);
+  }
+  nav{
+    background: #135bbd;
+    padding: 12px 16px;
+    position: sticky; top:0; z-index:9;
+    display:flex; gap:18px; align-items:center;
+    box-shadow:0 6px 18px rgba(0,0,0,.35);
+  }
+  nav a{
+    color:white; text-decoration:none; font-weight:bold;
+    padding:8px 10px; border-radius:8px;
+  }
+  nav a:hover{background:rgba(255,255,255,.12)}
+  .wrap{max-width:1100px; margin:0 auto; padding:18px;}
+  h2{color:#7fb3ff; margin:0 0 10px}
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap:16px;
+  }
+  @media (max-width: 860px){
+    .grid{grid-template-columns: 1fr;}
+  }
+  .box{
+    background: rgba(23,28,36,.92);
+    border:1px solid var(--line);
+    padding: 16px;
+    border-radius: 14px;
+    box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .meta p{margin:6px 0; color:var(--muted)}
+  .meta b{color:var(--text)}
+  textarea, input, select{
+    width:100%;
+    padding:10px 12px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:#0f141d;
+    color:var(--text);
+    outline:none;
+  }
+  textarea{min-height:84px; resize:vertical}
+  .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .row > *{flex:1}
+  button{
+    background: var(--blue);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight:bold;
+  }
+  button:hover{filter:brightness(.95)}
+  .btn-ghost{
+    background: transparent;
+    border:1px solid var(--line);
+    color:var(--text);
+  }
+  .badge{
+    display:inline-block;
+    padding:4px 10px;
+    border-radius:999px;
+    font-size:12px;
+    border:1px solid var(--line);
+    color:var(--muted);
+    margin-left:8px;
+  }
+  .out{
+    white-space:pre-wrap;
+    background:#0f141d;
+    padding:12px;
+    border-radius:12px;
+    border:1px dashed var(--line);
+    min-height:90px;
+    color:var(--text);
+  }
+  .hint{color:var(--muted); font-size:13px; margin:6px 0 0}
+  .sep{height:1px; background:var(--line); margin:10px 0 12px}
 </style>
 </head>
 <body>
 
 <nav>
-    <a href="index.html">Trang chủ</a>
-    <a href="game.html">Trò chơi</a>
+  <a href="index.html">Trang chủ</a>
+  <a href="game.html">Trò chơi</a>
 </nav>
 
-<div class="box">
-    <h2>Giới thiệu sản phẩm</h2>
-    <p><b>Tên sản phẩm:</b> AI – Teacher Mini (Trợ lý AI hỗ trợ giáo viên tiểu học)</p>
+<div class="wrap">
+
+  <div class="box meta">
+    <h2>Giới thiệu sản phẩm <span class="badge">Bản demo đi thi – chạy offline</span></h2>
+    <p><b>Tên sản phẩm:</b> AI – Teacher Mini (Trợ lý hỗ trợ giáo viên tiểu học)</p>
     <p><b>Tác giả:</b> Trịnh Thị Nhung</p>
     <p><b>Đơn vị công tác:</b> Trường PTDTBT Tiểu học Trung Thu</p>
-    <p><b>Mô tả:</b> Công cụ hỗ trợ soạn bài, đánh giá, cá thể hoá dạy học…</p>
-</div>
+    <p><b>Mô tả:</b> Công cụ hỗ trợ soạn bài, đánh giá, cá thể hoá dạy học, đảm bảo an toàn nội dung…</p>
+    <p class="hint">Gợi ý trình bày với BGK: “Các chức năng chạy 100% ổn định tại chỗ; có thể nâng cấp gọi AI thật khi triển khai.”</p>
+  </div>
 
-<div class="box">
-    <h2>Soạn giáo án tự động</h2>
-    <textarea id="inputLesson" rows="3" style="width:100%;" placeholder="Nhập yêu cầu bài dạy..."></textarea>
-    <br><br>
-    <button onclick="generateLesson()">Tạo giáo án</button>
-    <p><b>Kết quả:</b></p>
-    <div id="result" style="white-space:pre-wrap;background:#fff;padding:10px;border-radius:6px;"></div>
+  <div class="grid">
+
+    <!-- 1) SOẠN GIÁO ÁN -->
+    <div class="box">
+      <h2>1) Soạn giáo án tự động</h2>
+      <div class="row">
+        <input id="lessonTopic" placeholder="Môn – Lớp – Chủ đề (VD: Tiếng Việt lớp 2 – Luyện đọc)"/>
+        <select id="lessonTime">
+          <option value="35">35 phút</option>
+          <option value="40">40 phút</option>
+          <option value="45">45 phút</option>
+        </select>
+      </div>
+      <div class="sep"></div>
+      <textarea id="lessonReq" placeholder="Nhập yêu cầu bài dạy (mục tiêu, nội dung, năng lực, đồ dùng dạy học...)"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button onclick="generateLesson()">Tạo giáo án</button>
+        <button class="btn-ghost" onclick="clearBox('outLesson')">Xóa kết quả</button>
+      </div>
+      <p class="hint">Chạy dạng “AI mô phỏng”: sinh giáo án theo mẫu chuẩn, bấm là ra ngay (đi thi rất ổn định).</p>
+      <div id="outLesson" class="out"></div>
+    </div>
+
+    <!-- 2) ĐÁNH GIÁ HỌC SINH -->
+    <div class="box">
+      <h2>2) Đánh giá học sinh</h2>
+      <div class="row">
+        <select id="level">
+          <option value="Yếu">Mức: Yếu</option>
+          <option value="Trung bình">Mức: Trung bình</option>
+          <option value="Khá">Mức: Khá</option>
+          <option value="Tốt">Mức: Tốt</option>
+        </select>
+        <select id="skill">
+          <option value="Đọc">Kỹ năng: Đọc</option>
+          <option value="Viết">Kỹ năng: Viết</option>
+          <option value="Toán">Kỹ năng: Toán</option>
+          <option value="Giao tiếp">Kỹ năng: Giao tiếp</option>
+        </select>
+      </div>
+      <div class="sep"></div>
+      <textarea id="evidence" placeholder="Nhập minh chứng/nhận xét ngắn (VD: đọc còn chậm, hay nhầm vần, làm bài thiếu bước...)"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button onclick="generateFeedback()">Tạo nhận xét</button>
+        <button class="btn-ghost" onclick="clearBox('outEval')">Xóa kết quả</button>
+      </div>
+      <p class="hint">Tự động tạo: nhận xét + nguyên nhân + hướng hỗ trợ + giao bài phù hợp.</p>
+      <div id="outEval" class="out"></div>
+    </div>
+
+    <!-- 3) CÁ THỂ HÓA -->
+    <div class="box">
+      <h2>3) Cá thể hoá dạy học</h2>
+      <div class="row">
+        <select id="studentType">
+          <option value="Học sinh DTTS – hạn chế tiếng Việt">HS DTTS – hạn chế tiếng Việt</option>
+          <option value="Học sinh yếu – chậm tiếp thu">HS yếu – chậm tiếp thu</option>
+          <option value="Học sinh khá – cần nâng cao">HS khá – cần nâng cao</option>
+          <option value="Học sinh hiếu động – khó tập trung">HS hiếu động – khó tập trung</option>
+        </select>
+      </div>
+      <div class="sep"></div>
+      <textarea id="personalReq" placeholder="Nhập nội dung bài và mong muốn cá thể hoá (VD: bài Luyện đọc, cần tăng tương tác, có tranh ảnh, giao nhiệm vụ nhóm...)"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button onclick="generatePersonalPlan()">Tạo kế hoạch</button>
+        <button class="btn-ghost" onclick="clearBox('outPersonal')">Xóa kết quả</button>
+      </div>
+      <p class="hint">Xuất ra: điều chỉnh mục tiêu – hoạt động – câu hỏi – nhiệm vụ cho đúng đối tượng.</p>
+      <div id="outPersonal" class="out"></div>
+    </div>
+
+    <!-- 4) AN TOÀN -->
+    <div class="box">
+      <h2>4) Kiểm tra an toàn nội dung</h2>
+      <textarea id="safeText" placeholder="Dán nội dung định đưa cho học sinh (đề bài, câu chuyện, lời thoại...)"></textarea>
+      <div class="row" style="margin-top:10px">
+        <button onclick="safetyCheck()">Kiểm tra</button>
+        <button class="btn-ghost" onclick="clearBox('outSafe')">Xóa kết quả</button>
+      </div>
+      <p class="hint">Tự động cảnh báo từ ngữ nhạy cảm và gợi ý phiên bản phù hợp lứa tuổi.</p>
+      <div id="outSafe" class="out"></div>
+    </div>
+
+  </div>
 </div>
 
 <script>
-function generateLesson() {
-    const text = document.getElementById("inputLesson").value;
-    document.getElementById("result").innerText =
-        "Đây là bản nháp giáo án cho yêu cầu:\n" + text;
-}
+  function clearBox(id){ document.getElementById(id).innerText=""; }
+
+  // 1) Giáo án
+  function generateLesson(){
+    const topic = document.getElementById("lessonTopic").value.trim() || "Chưa nhập môn/lớp/chủ đề";
+    const time  = document.getElementById("lessonTime").value;
+    const req   = document.getElementById("lessonReq").value.trim() || "(Chưa nhập yêu cầu chi tiết)";
+
+    const text =
+`GIÁO ÁN (BẢN NHÁP) – ${time} PHÚT
+Chủ đề: ${topic}
+
+I. MỤC TIÊU
+- Kiến thức: HS nắm được nội dung chính của bài/đơn vị học.
+- Kĩ năng: Luyện thao tác học tập; trả lời câu hỏi; thực hành theo hướng dẫn.
+- Phẩm chất – năng lực: chăm học, hợp tác; tự tin trình bày.
+
+II. CHUẨN BỊ
+- GV: tranh/ảnh, phiếu học tập, câu hỏi gợi mở.
+- HS: SGK, vở, bút.
+
+III. TIẾN TRÌNH DẠY HỌC
+1) Khởi động (5’)
+- Trò chơi/đố vui ngắn liên quan chủ đề.
+- Nêu mục tiêu tiết học.
+
+2) Hình thành kiến thức (12’)
+- GV nêu vấn đề, đặt câu hỏi dẫn dắt.
+- HS đọc/quan sát/tính toán theo nhóm đôi.
+- Chốt kiến thức (bảng phụ/tóm tắt).
+
+3) Luyện tập (10’)
+- Bài tập 1: mức độ cơ bản (cá nhân).
+- Bài tập 2: mức độ vận dụng (nhóm 4).
+- GV nhận xét, sửa sai phổ biến.
+
+4) Vận dụng – mở rộng (6’)
+- Liên hệ thực tế, tình huống gần gũi địa phương.
+- Nhiệm vụ về nhà: 1–2 yêu cầu ngắn.
+
+IV. GHI CHÚ THEO YÊU CẦU NGƯỜI DÙNG
+${req}`;
+
+    document.getElementById("outLesson").innerText = text;
+  }
+
+  // 2) Đánh giá
+  function generateFeedback(){
+    const level = document.getElementById("level").value;
+    const skill = document.getElementById("skill").value;
+    const evidence = document.getElementById("evidence").value.trim() || "(Chưa có minh chứng cụ thể)";
+
+    const map = {
+      "Yếu": {
+        good: "Cần rèn thêm nền tảng, làm từng bước nhỏ.",
+        plan: "Giao nhiệm vụ ngắn; hướng dẫn 1-1; dùng tranh ảnh/đồ vật trực quan."
+      },
+      "Trung bình": {
+        good: "Đã có tiến bộ, cần củng cố để ổn định.",
+        plan: "Luyện theo mẫu; tăng luyện tập có phản hồi nhanh; khuyến khích phát biểu."
+      },
+      "Khá": {
+        good: "Thực hiện tốt, có thể nâng mức độ vận dụng.",
+        plan: "Giao bài mở rộng; bài tập tình huống; khuyến khích hỗ trợ bạn."
+      },
+      "Tốt": {
+        good: "Hoàn thành xuất sắc, chủ động và tự tin.",
+        plan: "Giao nhiệm vụ dẫn dắt nhóm; trình bày lại kiến thức; thử thách nâng cao."
+      }
+    };
+
+    const t =
+`NHẬN XÉT ĐÁNH GIÁ – Kỹ năng: ${skill} (Mức: ${level})
+
+1) Minh chứng:
+- ${evidence}
+
+2) Nhận xét:
+- ${map[level].good}
+
+3) Gợi ý hỗ trợ tiếp theo:
+- ${map[level].plan}
+
+4) Bài tập khuyến nghị:
+- 3–5 phút luyện ${skill.toLowerCase()} mỗi ngày; kiểm tra nhanh cuối buổi (1–2 câu).`;
+
+    document.getElementById("outEval").innerText = t;
+  }
+
+  // 3) Cá thể hoá
+  function generatePersonalPlan(){
+    const type = document.getElementById("studentType").value;
+    const req  = document.getElementById("personalReq").value.trim() || "(Chưa nhập yêu cầu)";
+
+    const t =
+`KẾ HOẠCH CÁ THỂ HOÁ
+
+Đối tượng: ${type}
+
+1) Điều chỉnh mục tiêu:
+- Giảm tải phần khó, ưu tiên 1–2 mục tiêu trọng tâm.
+- Tăng hoạt động “thấy – nói – làm” để HS dễ hiểu.
+
+2) Điều chỉnh hoạt động:
+- Bước 1: GV làm mẫu (rõ – chậm – ngắn).
+- Bước 2: HS luyện theo nhóm đôi (bạn kèm bạn).
+- Bước 3: Củng cố bằng trò chơi/phiếu nhanh.
+
+3) Câu hỏi gợi mở (dễ → khó):
+- Câu 1: Nhận biết (đúng/sai, chọn đáp án).
+- Câu 2: Thông hiểu (vì sao? giải thích ngắn).
+- Câu 3: Vận dụng (liên hệ thực tế gần gũi).
+
+4) Yêu cầu cụ thể từ GV:
+${req}
+
+5) Đánh giá nhanh cuối tiết:
+- 1 câu hỏi miệng + 1 nhiệm vụ nhỏ (30–60 giây) để xác nhận HS hiểu bài.`;
+
+    document.getElementById("outPersonal").innerText = t;
+  }
+
+  // 4) An toàn
+  function safetyCheck(){
+    const s = (document.getElementById("safeText").value || "").trim();
+    if(!s){
+      document.getElementById("outSafe").innerText = "Em chưa dán nội dung để kiểm tra.";
+      return;
+    }
+
+    // Bộ từ khoá nhạy cảm (nhẹ nhàng cho tiểu học)
+    const badWords = [
+      "đánh nhau","giết","chém","máu","tự tử","ma tuý","thuốc lá","rượu bia",
+      "kích động","bạo lực","18+","nhạy cảm"
+    ];
+
+    const found = badWords.filter(w => s.toLowerCase().includes(w));
+    let msg = "";
+
+    if(found.length === 0){
+      msg =
+`KẾT QUẢ: AN TOÀN ✅
+- Không phát hiện từ khóa nhạy cảm phổ biến.
+Gợi ý:
+- Giữ ngôn từ tích cực, phù hợp lứa tuổi.
+- Nếu là tình huống tranh luận, nên thêm “quy tắc lớp học” (tôn trọng, không xúc phạm).`;
+    }else{
+      msg =
+`KẾT QUẢ: CẦN ĐIỀU CHỈNH ⚠️
+- Phát hiện từ khóa: ${found.join(", ")}
+
+Gợi ý chỉnh sửa:
+- Thay nội dung bạo lực/nhạy cảm bằng phiên bản “giáo dục kỹ năng an toàn”.
+- Ví dụ: “đánh nhau” → “xảy ra mâu thuẫn”; “máu” → “bị thương nhẹ”.
+
+Phiên bản gợi ý (mềm hoá):
+- Hãy mô tả sự việc theo hướng “giải quyết hòa bình”, nhấn mạnh xin lỗi – hợp tác – nhờ người lớn hỗ trợ.`;
+    }
+
+    document.getElementById("outSafe").innerText = msg;
+  }
 </script>
 
 </body>
 </html>
+
+
+
 
 
 
