@@ -119,8 +119,6 @@
     <p><b>Tác giả:</b> Trịnh Thị Nhung</p>
     <p><b>Đơn vị công tác:</b> Trường PTDTBT Tiểu học Trung Thu</p>
     <p><b>Mô tả:</b> Công cụ hỗ trợ soạn bài, đánh giá, cá thể hoá dạy học, đảm bảo an toàn nội dung…</p>
-    <p class="hint">Gợi ý trình bày với BGK: “Các chức năng chạy 100% ổn định tại chỗ; có thể nâng cấp gọi AI thật khi triển khai.”</p>
-  </div>
 
   <div class="grid">
 
@@ -166,12 +164,86 @@
       <textarea id="evidence" placeholder="Nhập minh chứng/nhận xét ngắn (VD: đọc còn chậm, hay nhầm vần, làm bài thiếu bước...)"></textarea>
       <div class="row" style="margin-top:10px">
         <button onclick="generateFeedback()">Tạo nhận xét</button>
-        <button class="btn-ghost" onclick="clearBox('outEval')">Xóa kết quả</button>
-      </div>
-      <p class="hint">Tự động tạo: nhận xét + nguyên nhân + hướng hỗ trợ + giao bài phù hợp.</p>
-      <div id="outEval" class="out"></div>
-    </div>
+       // 2) Đánh giá
+function generateFeedback(){
+  const level = document.getElementById("level").value;
+  const skill = document.getElementById("skill").value;
+  const evidenceRaw = (document.getElementById("evidence").value || "").trim();
 
+  // Tách minh chứng theo dòng (mỗi dòng = 1 minh chứng)
+  let lines = evidenceRaw
+    .split("\n")
+    .map(s => s.trim())
+    .filter(Boolean);
+
+  // Nếu người dùng chưa nhập: tạo gợi ý minh chứng mẫu
+  if(lines.length === 0){
+    if(skill === "Đọc"){
+      lines = [
+        "Quan sát: HS đọc còn chậm, hay ngắt nghỉ chưa đúng dấu câu.",
+        "Số liệu: Đọc đúng 18/30 tiếng; vấp 4 lần; tốc độ ~40 chữ/phút.",
+        "Tình huống: Khi đọc đoạn 2, HS nhầm vần an/ang và quên âm cuối."
+      ];
+    } else if(skill === "Viết"){
+      lines = [
+        "Quan sát: Chữ viết còn to/nhỏ chưa đều, sai khoảng cách giữa các tiếng.",
+        "Số liệu: Viết đúng chính tả 7/10 câu; sai 3 lỗi (d/gi/r, dấu hỏi/ngã).",
+        "Tình huống: Khi chép đoạn ngắn 3 dòng, HS thiếu 1 dấu chấm."
+      ];
+    } else if(skill === "Toán"){
+      lines = [
+        "Quan sát: HS làm bài thiếu bước trình bày, hay nhầm phép tính.",
+        "Số liệu: Làm đúng 6/10 câu; sai 2 câu do đặt tính lệch cột.",
+        "Tình huống: Bài toán có lời văn, HS chọn phép tính chưa phù hợp."
+      ];
+    } else {
+      lines = [
+        "Quan sát: HS còn rụt rè khi phát biểu, cần gợi mở mới nói.",
+        "Số liệu: Tham gia 2/5 lượt trao đổi; trả lời được 1 ý chính.",
+        "Tình huống: Khi làm việc nhóm, HS nghe bạn nhưng ít phản hồi."
+      ];
+    }
+  }
+
+  // Gộp minh chứng dạng bullet cho “cụ thể”
+  const evidenceBlock = lines.map(x => `- ${x}`).join("\n");
+
+  const map = {
+    "Yếu": {
+      note: "Cần rèn lại nền tảng, luyện theo bước nhỏ, có trợ giúp thường xuyên.",
+      plan: "Giao nhiệm vụ ngắn; làm mẫu rõ ràng; luyện 1–1 hoặc bạn kèm bạn; dùng tranh ảnh/đồ vật trực quan."
+    },
+    "Trung bình": {
+      note: "Đã có tiến bộ, cần củng cố để ổn định và giảm lỗi lặp lại.",
+      plan: "Luyện theo mẫu; tăng bài luyện có phản hồi nhanh; nhắc quy tắc/chiến lược làm bài; khuyến khích phát biểu."
+    },
+    "Khá": {
+      note: "Thực hiện tốt, có thể nâng dần yêu cầu vận dụng và trình bày.",
+      plan: "Giao bài mở rộng; bài tập tình huống; giao vai trò hỗ trợ bạn; yêu cầu giải thích cách làm."
+    },
+    "Tốt": {
+      note: "Hoàn thành rất tốt, chủ động và tự tin, có thể dẫn dắt nhóm.",
+      plan: "Giao nhiệm vụ dẫn dắt; trình bày lại kiến thức; thử thách nâng cao; tham gia hoạt động chia sẻ."
+    }
+  };
+
+  const t =
+`NHẬN XÉT ĐÁNH GIÁ – Kỹ năng: ${skill} (Mức: ${level})
+
+1) Minh chứng cụ thể:
+${evidenceBlock}
+
+2) Nhận xét:
+- ${map[level].note}
+
+3) Hướng hỗ trợ/điều chỉnh:
+- ${map[level].plan}
+
+4) Nhiệm vụ/ bài tập gợi ý (ngắn – rõ – đo được):
+- Luyện ${skill.toLowerCase()} 5 phút/ngày; cuối buổi kiểm tra nhanh 1–2 câu để xác nhận tiến bộ.`;
+
+  document.getElementById("outEval").innerText = t;
+}
     <!-- 3) CÁ THỂ HÓA -->
     <div class="box">
       <h2>3) Cá thể hoá dạy học</h2>
@@ -374,6 +446,7 @@ Phiên bản gợi ý (mềm hoá):
 
 </body>
 </html>
+
 
 
 
