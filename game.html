@@ -1,166 +1,1415 @@
-<<!DOCTYPE html>
+
+<!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Game Trí Tuệ - AI Teacher Mini</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Game Trí Tuệ • KNTT (Lớp 1–5) • Trường PTDTBT TH Trung Thu</title>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        background: #f0f8ff;
-        margin: 0;
-        padding: 0;
-        text-align: center;
+  <style>
+    :root{
+      --bg1:#b6f2ff;
+      --bg2:#ffd6f0;
+      --bg3:#fff7c2;
+      --card: rgba(255,255,255,.78);
+      --stroke: rgba(20,30,60,.10);
+      --shadow: 0 18px 60px rgba(20,30,60,.18);
+      --text:#17233a;
+      --muted:#51607a;
+      --accent:#2c7be5;
+      --good:#16a34a;
+      --bad:#ef4444;
+      --warn:#f59e0b;
+      --radius: 22px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(1100px 700px at 18% -10%, rgba(124,58,237,.22) 0%, transparent 60%),
+        radial-gradient(900px 650px at 110% 15%, rgba(34,197,94,.18) 0%, transparent 55%),
+        radial-gradient(900px 650px at 25% 110%, rgba(59,130,246,.18) 0%, transparent 55%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 55%, var(--bg3));
+      overflow-x:hidden;
+    }
+    header{
+      position:sticky; top:0; z-index:50;
+      background: rgba(255,255,255,.70);
+      border-bottom: 1px solid var(--stroke);
+      backdrop-filter: blur(10px);
+    }
+    .top{
+      max-width:1200px; margin:0 auto;
+      padding: 12px 16px;
+      display:flex; align-items:center; justify-content:space-between; gap:12px;
+      flex-wrap:wrap;
+    }
+    .brand{display:flex; align-items:center; gap:12px; min-width: 320px;}
+    .logoBox{
+      width:54px; height:54px; border-radius: 18px;
+      background: linear-gradient(135deg, rgba(44,123,229,.16), rgba(124,58,237,.16));
+      border: 1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      display:grid; place-items:center;
+      font-weight:1000;
+    }
+    .logoBox img{width:100%; height:100%; object-fit:cover; display:block;}
+    .brand h1{
+      margin:0;
+      font-size:14px;
+      font-weight:1000;
+      letter-spacing:.2px;
+      line-height:1.2;
+      text-transform: uppercase;
+    }
+    .brand p{
+      margin:4px 0 0;
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.25;
+      font-weight:800;
+    }
+    .badgeRow{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px;}
+    .chip{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 10px; border-radius: 999px;
+      background: rgba(255,255,255,.65);
+      border: 1px solid var(--stroke);
+      font-size:12px; color:var(--muted);
+      box-shadow: 0 10px 25px rgba(20,30,60,.08);
+      user-select:none;
+      font-weight:900;
+    }
+    .chip b{color:var(--text)}
+    .chip.subject{
+      background: rgba(44,123,229,.12);
+      border-color: rgba(44,123,229,.22);
+      color:#1f3a7a;
     }
 
-    header {
-        background: #4a90e2;
-        color: white;
-        padding: 15px;
-        font-size: 26px;
-        font-weight: bold;
-        letter-spacing: 1px;
+    .controls{
+      display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end;
+      align-items:center;
+    }
+    select, button{
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.72);
+      color: var(--text);
+      border-radius: 16px;
+      padding: 10px 12px;
+      font-weight:900;
+      cursor:pointer;
+      outline:none;
+      box-shadow: 0 10px 22px rgba(20,30,60,.08);
+    }
+    button.primary{
+      background: linear-gradient(135deg, #2c7be5, #22c55e);
+      border:none; color:white;
+    }
+    button.danger{
+      background: rgba(239,68,68,.10);
+      border-color: rgba(239,68,68,.22);
+      color:#8a1f1f;
+    }
+    button.small{padding:9px 10px; border-radius: 14px; font-size:12px; font-weight:1000}
+
+    .wrap{
+      max-width:1200px;
+      margin: 18px auto 28px;
+      padding: 0 16px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 16px;
+    }
+    @media (max-width: 980px){ .grid{grid-template-columns:1fr} }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card .hd{
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--stroke);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+      background: rgba(255,255,255,.55);
+      flex-wrap:wrap;
+    }
+    .card .hd .title{font-weight: 1000; letter-spacing:.2px;}
+    .card .bd{padding: 16px}
+
+    .question{
+      margin:0 0 12px;
+      font-size: 24px;
+      line-height: 1.3;
+      font-weight: 1000;
+    }
+    .answers{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+      margin-top: 10px;
+    }
+    @media (max-width: 640px){
+      .answers{grid-template-columns: 1fr}
+      .question{font-size: 21px}
     }
 
-    #game-box {
-        margin: 20px auto;
-        width: 90%;
-        max-width: 600px;
-        background: white;
-        padding: 20px;
-        border-radius: 14px;
-        box-shadow: 0 0 18px rgba(0,0,0,0.2);
+    .ans{
+      text-align:left;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.68);
+      border: 1px solid rgba(20,30,60,.12);
+      box-shadow: 0 10px 22px rgba(20,30,60,.08);
+      transition: transform .06s ease, filter .15s ease;
+      display:flex; gap:12px; align-items:flex-start;
+      font-weight: 1000;
+    }
+    .ans:hover{transform: translateY(-1px); filter:brightness(1.02)}
+    .ans:disabled{opacity:.88; cursor:not-allowed; transform:none}
+    .badge{
+      width:30px; height:30px; border-radius: 12px;
+      display:grid; place-items:center;
+      font-weight:1000;
+      background: rgba(44,123,229,.12);
+      border: 1px solid rgba(44,123,229,.20);
+      color:#1f3a7a;
+      flex:0 0 auto;
+    }
+    .ans.good{
+      background: rgba(22,163,74,.12);
+      border-color: rgba(22,163,74,.32);
+    }
+    .ans.bad{
+      background: rgba(239,68,68,.12);
+      border-color: rgba(239,68,68,.30);
     }
 
-    .question {
-        font-size: 22px;
-        margin-bottom: 20px;
-        font-weight: bold;
-        color: #333;
+    .hint{
+      margin-top: 12px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px dashed rgba(20,30,60,.22);
+      background: rgba(255,255,255,.55);
+      color: var(--muted);
+      box-shadow: 0 10px 22px rgba(20,30,60,.06);
+      font-weight:900;
     }
 
-    .btn {
-        background: #4a90e2;
-        color: white;
-        padding: 14px 18px;
-        display: block;
-        margin: 10px auto;
-        width: 90%;
-        border-radius: 10px;
-        font-size: 18px;
-        cursor: pointer;
-        border: none;
-        transition: 0.3s;
+    .panel{display:grid; grid-template-columns: 1fr 1fr; gap:10px;}
+    .kpi{
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid var(--stroke);
+      background: rgba(255,255,255,.62);
+      box-shadow: 0 10px 22px rgba(20,30,60,.06);
+    }
+    .kpi .k{font-size:12px; color:var(--muted); font-weight:900}
+    .kpi .v{font-size:20px; font-weight:1000; margin-top:6px}
+
+    .leaderboard{display:flex; flex-direction:column; gap:10px; margin-top: 14px}
+    .lb-item{
+      display:flex; justify-content:space-between; gap:10px; align-items:center;
+      padding: 12px 12px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.62);
+      border: 1px solid var(--stroke);
+      box-shadow: 0 10px 22px rgba(20,30,60,.06);
+    }
+    .rank{
+      width:34px; height:34px; border-radius: 14px;
+      display:grid; place-items:center;
+      font-weight:1000;
+      background: rgba(245,158,11,.14);
+      border: 1px solid rgba(245,158,11,.28);
+      color:#8a4a07;
+      flex:0 0 auto;
+    }
+    .name{font-weight:1000}
+    .sub{font-size:12px; color:var(--muted); font-weight:900}
+
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .mini{font-size:12px; color:var(--muted); font-weight:900; margin:10px 0 0}
+
+    .toast{
+      position:fixed; left:50%; bottom:20px; transform: translateX(-50%);
+      padding:12px 14px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.92);
+      border:1px solid var(--stroke);
+      box-shadow: var(--shadow);
+      display:none;
+      z-index:90;
+      font-weight:1000;
     }
 
-    .btn:hover {
-        background: #357abd;
+    /* Hiệu ứng đúng/sai (icon + pháo giấy) */
+    .fxLayer{
+      position:fixed; inset:0;
+      pointer-events:none;
+      z-index:200;
+      display:none;
     }
-
-    #result {
-        margin-top: 20px;
-        font-size: 22px;
-        font-weight: bold;
+    .fxBadge{
+      position:absolute; left:50%; top:18%;
+      transform: translateX(-50%);
+      padding: 14px 18px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.88);
+      border:1px solid rgba(20,30,60,.12);
+      box-shadow: var(--shadow);
+      font-weight:1000;
+      display:flex; align-items:center; gap:10px;
+      font-size: 18px;
     }
-
-    .correct {
-        color: green;
+    .confetti{
+      position:absolute;
+      width:10px; height:14px;
+      border-radius: 4px;
+      opacity:.95;
+      top:-20px;
+      animation: fall 900ms linear forwards;
     }
-    .wrong {
-        color: red;
+    @keyframes fall{
+      to{
+        transform: translateY(110vh) rotate(260deg);
+        opacity: 0.2;
+      }
     }
-
-    /* Hiệu ứng pháo hoa */
-    #fireworks {
-        position: fixed;
-        top: 0; left: 0;
-        width: 100%; height: 100%;
-        pointer-events: none;
-        display: none;
+    .sadFace{
+      position:absolute; left:50%; top:20%;
+      transform: translateX(-50%);
+      font-size: 64px;
+      filter: drop-shadow(0 18px 30px rgba(0,0,0,.22));
+      animation: pop 650ms ease-out forwards;
     }
-</style>
+    @keyframes pop{
+      0%{ transform: translateX(-50%) scale(.6); opacity:.0;}
+      60%{ transform: translateX(-50%) scale(1.06); opacity:1;}
+      100%{ transform: translateX(-50%) scale(1.0); opacity:1;}
+    }
+  </style>
 </head>
 
 <body>
+  <header>
+    <div class="top">
+      <div class="brand">
+        <div class="logoBox">
+          <img alt="Logo trường" src="logo-truong.png"
+               onerror="this.style.display='none'; this.parentElement.textContent='🏫';" />
+        </div>
+        <div>
+          <h1>UBND XÃ SÍNH PHÌNH • TRƯỜNG PTDTBT TH TRUNG THU • GAME KNTT</h1>
+          <p>Tác giả: TRỊNH THỊ NHUNG • SĐT: 0368822026 • Phiên bản nộp thi</p>
+          <div class="badgeRow">
+            <span class="chip">Mạch: <b id="modeTxt">Theo lớp</b></span>
+            <span class="chip subject">Môn: <b id="subjectTxt">—</b></span>
+            <span class="chip">Câu: <b id="qIndex">0</b>/<b id="qTotal">0</b></span>
+            <span class="chip">TG: <b id="timer">00</b>s</span>
+            <span class="chip">Combo: <b id="combo">0</b>🔥</span>
+            <span class="chip">TTS: <b id="rateTxt">0.85</b></span>
+            <span class="chip">Tự chuyển: <b id="autoTxt">ON</b></span>
+          </div>
+        </div>
+      </div>
 
-<header>🎮 GAME TRÍ TUỆ – AI TEACHER MINI</header>
+      <div class="controls">
+        <select id="gradeSel" title="Chọn lớp">
+          <option value="1">Lớp 1</option>
+          <option value="2">Lớp 2</option>
+          <option value="3">Lớp 3</option>
+          <option value="4">Lớp 4</option>
+          <option value="5">Lớp 5</option>
+        </select>
 
-<div id="game-box">
-    <div class="question" id="question">Đang tải câu hỏi...</div>
+        <select id="modeSel" title="Chọn mạch kiến thức">
+          <option value="theolop">Theo lớp (Toán 15 + TV 15 = 30)</option>
+          <option value="khoahoc">Khoa học (30 câu)</option>
+          <option value="lichsu">Lịch sử (15 câu)</option>
+          <option value="diali">Địa lí (15 câu)</option>
+          <option value="kynang">Kỹ năng (30 câu)</option>
+        </select>
 
-    <button class="btn" onclick="checkAnswer(0)" id="btn0"></button>
-    <button class="btn" onclick="checkAnswer(1)" id="btn1"></button>
-    <button class="btn" onclick="checkAnswer(2)" id="btn2"></button>
+        <button class="small" id="btnFullscreen">🖥️ Toàn màn hình</button>
+        <button class="small" id="btnSpeak">🔊 Đọc lại</button>
+        <button class="small" id="btnSfx">🔔 Đúng/Sai: ON</button>
+        <button class="small" id="btnAuto">⏭️ Tự chuyển: ON</button>
+        <button class="small" id="btnPause">⏸️ Tạm dừng</button>
+        <button class="danger small" id="btnExit">⛔ Kết thúc</button>
+      </div>
+    </div>
+  </header>
 
-    <div id="result"></div>
-</div>
+  <main class="wrap">
+    <div class="grid">
+      <section class="card">
+        <div class="hd">
+          <div class="title">Vòng chơi</div>
+          <div class="row">
+            <span class="chip">Điểm: <b id="score">0</b></span>
+            <span class="chip">✅ <b id="correct">0</b></span>
+            <span class="chip">❌ <b id="wrong">0</b></span>
+            <span class="chip">Trạng thái: <b id="stateTxt">Sẵn sàng</b></span>
+          </div>
+        </div>
+        <div class="bd">
+          <h2 class="question" id="question">Bấm “Bắt đầu” để chơi.</h2>
+          <div class="answers" id="answers"></div>
 
-<canvas id="fireworks"></canvas>
+          <div class="hint" id="hintBox" style="display:block">
+            <div class="sub"><b>Gợi ý/Minh chứng</b> sẽ hiện sau mỗi câu.</div>
+            <div class="mini">Mẹo: Khi thi, bật Toàn màn hình. Nếu giọng đọc chưa chạy, bấm “Đọc lại” 1 lần.</div>
+          </div>
+
+          <div class="row" style="margin-top:14px">
+            <button class="primary" id="btnStart">▶️ Bắt đầu</button>
+            <button id="btnNext">⏭️ Câu tiếp</button>
+            <button id="btnRestart">🔁 Chơi lại</button>
+          </div>
+
+          <p class="mini">
+            * Điểm: đúng + nhanh + combo. Trả lời càng sớm càng nhiều điểm (mốc thưởng nhanh: 12 giây).
+          </p>
+        </div>
+      </section>
+
+      <aside class="card">
+        <div class="hd">
+          <div class="title">Xếp hạng (lưu trên máy)</div>
+          <button class="small" id="btnClearLB">🧹 Xoá BXH</button>
+        </div>
+        <div class="bd">
+          <div class="panel">
+            <div class="kpi">
+              <div class="k">Mục tiêu vòng</div>
+              <div class="v" id="targetTxt">30 câu</div>
+            </div>
+            <div class="kpi">
+              <div class="k">Điểm cao nhất (lớp+mạch)</div>
+              <div class="v" id="bestTxt">0</div>
+            </div>
+          </div>
+
+          <div class="leaderboard" id="leaderboard"></div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="fxLayer" id="fxLayer">
+    <div class="fxBadge" id="fxBadge">🎉 ĐÚNG! 👏</div>
+    <div class="sadFace" id="sadFace" style="display:none">😢</div>
+  </div>
 
 <script>
-    // --- Danh sách câu hỏi trí tuệ ---
-    const questions = [
-        {
-            q: "Con gì buổi sáng gáy ò ó o?",
-            a: ["Con gà", "Con vịt", "Con mèo"],
-            correct: 0
-        },
-        {
-            q: "Trên đồng có 5 con trâu, 2 con đi mất. Còn lại mấy con?",
-            a: ["3 con", "4 con", "5 con"],
-            correct: 0
-        },
-        {
-            q: "Quả gì màu đỏ, tròn, ăn giòn và mọng nước?",
-            a: ["Quả ớt", "Quả táo", "Quả chuối"],
-            correct: 1
-        },
-        {
-            q: "Trong từ 'học sinh', tiếng nào là tiếng chứa vần 'inh'?",
-            a: ["học", "sinh", "cả hai"],
-            correct: 1
-        }
-    ];
+/* =========================
+   1) CẤU HÌNH
+   ========================= */
+const ROUND = {
+  timePerQuestion: 20,
+  fastWindow: 12,
+  ttsRate: 0.85,
+  ttsPitch: 1.0,
+  autoNextDelayMs: 1200
+};
+const QUOTA_THEO_LOP = { "Toán": 15, "Tiếng Việt": 15 };
+const QUOTA_MODE = { khoahoc: 30, lichsu: 15, diali: 15, kynang: 30 };
 
-    let current = 0;
+/* =========================
+   2) NGÂN HÀNG CÂU HỎI
+   (Giữ nguyên như bản thầy gửi trước đó)
+   ========================= */
+const BANK_THEO_LOP = {
+  1: [
+    {subject:"Toán", q:"Số nào đứng liền sau số 6?", a:["5","6","7","8"], correct:2, explain:"Sau 6 là 7 theo thứ tự đếm."},
+    {subject:"Toán", q:"5 + 3 bằng bao nhiêu?", a:["7","8","9","6"], correct:1, explain:"5 cộng 3 bằng 8."},
+    {subject:"Toán", q:"9 − 4 bằng bao nhiêu?", a:["6","5","4","7"], correct:1, explain:"9 bớt 4 còn 5."},
+    {subject:"Toán", q:"Số lớn nhất là:", a:["2","7","5","6"], correct:1, explain:"So sánh các số, 7 lớn nhất."},
+    {subject:"Toán", q:"10 − 2 bằng:", a:["7","8","9","6"], correct:1, explain:"10 trừ 2 bằng 8."},
+    {subject:"Toán", q:"Hình nào có 3 cạnh?", a:["Hình tròn","Hình tam giác","Hình vuông","Hình chữ nhật"], correct:1, explain:"Tam giác có 3 cạnh."},
+    {subject:"Toán", q:"Số nào là số chẵn?", a:["3","5","8","9"], correct:2, explain:"Số chẵn chia hết cho 2; 8 chia hết cho 2."},
+    {subject:"Toán", q:"So sánh: 4 ___ 6", a:[">","<","=","không so sánh"], correct:1, explain:"4 nhỏ hơn 6 nên điền dấu <."},
+    {subject:"Toán", q:"Có 2 nhóm, mỗi nhóm 4 bạn. Tất cả có mấy bạn?", a:["6","7","8","9"], correct:2, explain:"4 + 4 = 8."},
+    {subject:"Toán", q:"Số nào đứng liền trước số 9?", a:["7","8","9","10"], correct:1, explain:"Trước 9 là 8."},
+    {subject:"Toán", q:"7 + 2 = ?", a:["8","9","10","7"], correct:1, explain:"7 cộng 2 bằng 9."},
+    {subject:"Toán", q:"6 − 1 = ?", a:["7","5","6","4"], correct:1, explain:"6 trừ 1 bằng 5."},
+    {subject:"Toán", q:"Trong các số: 1, 3, 5, 7 số bé nhất là:", a:["1","3","5","7"], correct:0, explain:"1 là số bé nhất."},
+    {subject:"Toán", q:"Số 0 là:", a:["Lớn nhất","Bé nhất","Bằng 10","Không là số"], correct:1, explain:"0 là số bé nhất trong các số tự nhiên."},
+    {subject:"Toán", q:"Có 5 chiếc kẹo, thêm 5 chiếc kẹo. Có tất cả:", a:["8","9","10","11"], correct:2, explain:"5 + 5 = 10."},
 
-    function loadQuestion() {
-        const q = questions[current];
-        document.getElementById("question").innerText = q.q;
-        document.getElementById("btn0").innerText = q.a[0];
-        document.getElementById("btn1").innerText = q.a[1];
-        document.getElementById("btn2").innerText = q.a[2];
-        document.getElementById("result").innerText = "";
+    {subject:"Tiếng Việt", q:"Chữ cái đầu trong bảng chữ cái là:", a:["a","b","c","d"], correct:0, explain:"Bảng chữ cái bắt đầu bằng chữ a."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ hoạt động?", a:["chạy","bàn","hoa","sách"], correct:0, explain:"'Chạy' là hoạt động."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ đồ vật?", a:["con mèo","cái bút","đi học","xinh đẹp"], correct:1, explain:"Cái bút là đồ vật."},
+    {subject:"Tiếng Việt", q:"Từ nào là màu sắc?", a:["đỏ","ăn","ngủ","đứng"], correct:0, explain:"'Đỏ' là màu sắc."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu kể?", a:["Bạn ơi!","Ai đó?","Trời mưa.","Đẹp quá!"], correct:2, explain:"'Trời mưa.' là câu kể."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'cao' là:", a:["thấp","to","dài","rộng"], correct:0, explain:"Cao ↔ thấp."},
+    {subject:"Tiếng Việt", q:"Chọn từ phù hợp: Em ___ bài.", a:["uống","học","ngủ","chạy"], correct:1, explain:"Cụm đúng: học bài."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ con người?", a:["cô giáo","cái ghế","con gà","bông hoa"], correct:0, explain:"Cô giáo là người."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ con vật?", a:["con cá","cái cặp","bông hoa","quyển vở"], correct:0, explain:"Con cá là con vật."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ nơi chốn?", a:["trường học","xinh","chạy","ngon"], correct:0, explain:"Trường học là nơi chốn."},
+    {subject:"Tiếng Việt", q:"Câu nào là lời chào?", a:["Tạm biệt!","Ai vậy?","Trời nắng.","Ngủ đi!"], correct:0, explain:"'Tạm biệt!' là lời chào khi chia tay."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ việc làm ở lớp?", a:["học","ngủ","bay","bơi"], correct:0, explain:"Học là việc làm ở lớp."},
+    {subject:"Tiếng Việt", q:"Chọn từ đúng: 'Con ___ kêu meo meo.'", a:["mèo","gà","vịt","chó"], correct:0, explain:"Con mèo kêu meo meo."},
+    {subject:"Tiếng Việt", q:"Từ nào là tên người?", a:["Lan","bút","bàn","mưa"], correct:0, explain:"Lan là tên người."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'sạch' là:", a:["bẩn","đẹp","mới","thơm"], correct:0, explain:"Sạch ↔ bẩn."},
+  ],
+
+  2: [
+    {subject:"Toán", q:"9 + 6 bằng bao nhiêu?", a:["14","15","16","13"], correct:1, explain:"9 + 6 = 15."},
+    {subject:"Toán", q:"18 − 9 bằng bao nhiêu?", a:["8","9","10","7"], correct:1, explain:"18 − 9 = 9."},
+    {subject:"Toán", q:"Số nào lớn hơn 20?", a:["18","19","21","20"], correct:2, explain:"21 lớn hơn 20."},
+    {subject:"Toán", q:"Trong các số sau, số chẵn là:", a:["17","23","24","31"], correct:2, explain:"24 chia hết cho 2."},
+    {subject:"Toán", q:"1 chục bằng:", a:["5","10","12","20"], correct:1, explain:"1 chục = 10."},
+    {subject:"Toán", q:"15 + 5 = ?", a:["10","15","20","25"], correct:2, explain:"15 + 5 = 20."},
+    {subject:"Toán", q:"12 − 4 = ?", a:["6","7","8","9"], correct:2, explain:"12 − 4 = 8."},
+    {subject:"Toán", q:"Số nào bé hơn 30?", a:["31","30","29","40"], correct:2, explain:"29 bé hơn 30."},
+    {subject:"Toán", q:"19 + 1 = ?", a:["18","19","20","21"], correct:2, explain:"19 cộng 1 bằng 20."},
+    {subject:"Toán", q:"Số 34 gồm:", a:["3 chục và 4 đơn vị","4 chục và 3 đơn vị","3 đơn vị và 4 chục","34 chục"], correct:0, explain:"34 = 3 chục + 4 đơn vị."},
+    {subject:"Toán", q:"Hình chữ nhật có:", a:["3 góc","4 góc","5 góc","6 góc"], correct:1, explain:"Hình chữ nhật có 4 góc."},
+    {subject:"Toán", q:"20 − 10 = ?", a:["0","5","10","15"], correct:2, explain:"20 − 10 = 10."},
+    {subject:"Toán", q:"Số lớn nhất là:", a:["40","14","22","9"], correct:0, explain:"40 lớn nhất."},
+    {subject:"Toán", q:"So sánh: 28 ___ 26", a:[">","<","=","không so sánh"], correct:0, explain:"28 lớn hơn 26 nên dùng dấu >."},
+    {subject:"Toán", q:"Có 6 bút, mua thêm 7 bút. Có tất cả:", a:["12","13","14","15"], correct:1, explain:"6 + 7 = 13."},
+
+    {subject:"Tiếng Việt", q:"Từ nào viết đúng?", a:["ngỉ hè","nghỉ hè","nghĩ hè","nghỉ hề"], correct:1, explain:"Đúng: nghỉ hè."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'vui' là:", a:["mừng","buồn","hân hoan","thích"], correct:1, explain:"Vui ↔ buồn."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu hỏi?", a:["Em đi học.","Bạn tên gì?","Ôi đẹp quá!","Mau lên!"], correct:1, explain:"Câu hỏi dùng dấu '?'."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ đặc điểm?", a:["xanh","ăn","chạy","ngủ"], correct:0, explain:"'Xanh' chỉ đặc điểm (màu sắc)."},
+    {subject:"Tiếng Việt", q:"Từ nào là danh từ?", a:["đẹp","nhanh","cái bàn","học"], correct:2, explain:"'Cái bàn' là danh từ."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ con vật?", a:["con cá","cái cặp","bông hoa","quyển vở"], correct:0, explain:"Con cá là con vật."},
+    {subject:"Tiếng Việt", q:"Chọn câu kể:", a:["Bạn ơi!","Trời nắng.","Ai đó?","Đẹp quá!"], correct:1, explain:"Trời nắng là câu kể."},
+    {subject:"Tiếng Việt", q:"Từ đồng nghĩa với 'mau' là:", a:["chậm","nhanh","xa","ít"], correct:1, explain:"Mau = nhanh."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ nơi học tập?", a:["trường","bàn","áo","kẹo"], correct:0, explain:"Trường là nơi học tập."},
+    {subject:"Tiếng Việt", q:"Chọn từ phù hợp: Em ___ sách.", a:["đọc","ăn","ngủ","đạp"], correct:0, explain:"Cụm đúng: đọc sách."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'nóng' là:", a:["lạnh","đỏ","cao","xa"], correct:0, explain:"Nóng ↔ lạnh."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ người thân?", a:["bố","mưa","bút","bánh"], correct:0, explain:"Bố là người thân."},
+    {subject:"Tiếng Việt", q:"Câu nào là lời đề nghị lịch sự?", a:["Đưa đây!","Cho tôi mượn với ạ.","Im đi!","Đi ra!"], correct:1, explain:"Có 'với ạ' thể hiện lịch sự."},
+    {subject:"Tiếng Việt", q:"Từ nào là tên đồ dùng học tập?", a:["thước","cây","mây","sông"], correct:0, explain:"Thước là đồ dùng học tập."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'đẹp' là:", a:["xấu","tốt","hiền","vui"], correct:0, explain:"Đẹp ↔ xấu."},
+  ],
+
+  3: [
+    {subject:"Toán", q:"24 : 3 bằng bao nhiêu?", a:["6","7","8","9"], correct:2, explain:"24 chia 3 được 8."},
+    {subject:"Toán", q:"7 × 6 bằng bao nhiêu?", a:["36","42","48","40"], correct:1, explain:"7×6 = 42."},
+    {subject:"Toán", q:"Số nào là số lẻ?", a:["18","20","23","24"], correct:2, explain:"23 là số lẻ."},
+    {subject:"Toán", q:"36 − 19 bằng:", a:["15","16","17","18"], correct:2, explain:"36 − 19 = 17."},
+    {subject:"Toán", q:"Đổi 3 m = ... cm", a:["30","300","3000","3"], correct:1, explain:"1 m = 100 cm → 3 m = 300 cm."},
+    {subject:"Toán", q:"Tìm x: x + 15 = 40", a:["15","20","25","30"], correct:2, explain:"x = 40 − 15 = 25."},
+    {subject:"Toán", q:"100 − 35 = ?", a:["55","65","75","85"], correct:1, explain:"100 − 35 = 65."},
+    {subject:"Toán", q:"Số 105 đọc là:", a:["một trăm linh năm","một trăm năm mươi","một trăm không năm","một trăm năm"], correct:0, explain:"105 đọc: một trăm linh năm."},
+    {subject:"Toán", q:"Hình chữ nhật có mấy góc vuông?", a:["1","2","3","4"], correct:3, explain:"Hình chữ nhật có 4 góc vuông."},
+    {subject:"Toán", q:"9 × 5 bằng:", a:["35","40","45","50"], correct:2, explain:"9×5 = 45."},
+    {subject:"Toán", q:"48 : 6 bằng:", a:["6","7","8","9"], correct:2, explain:"48 chia 6 bằng 8."},
+    {subject:"Toán", q:"Số 320 gồm:", a:["3 trăm 2 chục","3 trăm 2 đơn vị","32 chục","320 chục"], correct:0, explain:"320 = 3 trăm + 2 chục + 0 đơn vị."},
+    {subject:"Toán", q:"1/2 của 10 là:", a:["2","4","5","6"], correct:2, explain:"Một nửa của 10 là 5."},
+    {subject:"Toán", q:"Số nào lớn hơn 500?", a:["450","499","501","500"], correct:2, explain:"501 lớn hơn 500."},
+    {subject:"Toán", q:"So sánh: 307 ___ 370", a:[">","<","=","không so sánh"], correct:1, explain:"307 nhỏ hơn 370 nên dùng <."},
+
+    {subject:"Tiếng Việt", q:"Chủ ngữ trong câu 'Bạn Lan đang đọc sách' là:", a:["Bạn Lan","đang","đọc","sách"], correct:0, explain:"Chủ ngữ là 'Bạn Lan'."},
+    {subject:"Tiếng Việt", q:"Từ nào là động từ?", a:["xanh","chạy","đẹp","dài"], correct:1, explain:"'Chạy' là động từ."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'rộng' là:", a:["hẹp","dài","cao","xa"], correct:0, explain:"Rộng ↔ hẹp."},
+    {subject:"Tiếng Việt", q:"Câu nào dùng dấu chấm hỏi?", a:["Em chăm học.","Bạn ở đâu?","Ôi đẹp quá!","Mau lên!"], correct:1, explain:"Câu hỏi dùng dấu '?'."},
+    {subject:"Tiếng Việt", q:"Trong câu 'Mẹ nấu cơm', vị ngữ là:", a:["Mẹ","nấu cơm","cơm","nấu"], correct:1, explain:"Vị ngữ trả lời 'làm gì' → nấu cơm."},
+    {subject:"Tiếng Việt", q:"Từ nào là danh từ?", a:["học","vui","bàn","đẹp"], correct:2, explain:"'Bàn' là danh từ chỉ sự vật."},
+    {subject:"Tiếng Việt", q:"Chọn câu kể:", a:["Bạn ơi!","Ai đến đó?","Trời trong xanh.","Hay quá!"], correct:2, explain:"Trời trong xanh là câu kể."},
+    {subject:"Tiếng Việt", q:"Từ đồng nghĩa với 'nhanh' là:", a:["mau","chậm","xa","ít"], correct:0, explain:"Nhanh = mau."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ đặc điểm?", a:["xinh","ăn","ngủ","chạy"], correct:0, explain:"'Xinh' chỉ đặc điểm."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ sự vật?", a:["cái bàn","chạy","đẹp","nhanh"], correct:0, explain:"Cái bàn là sự vật."},
+    {subject:"Tiếng Việt", q:"Chọn từ phù hợp: '___ học bài'", a:["đang","và","nên","rất"], correct:0, explain:"Cụm đúng: đang học bài."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'dũng cảm' là:", a:["nhút nhát","mạnh mẽ","tốt bụng","thông minh"], correct:0, explain:"Dũng cảm ↔ nhút nhát."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu khiến?", a:["Trời mưa.","Bạn tên gì?","Hãy giữ trật tự!","Ôi đẹp quá!"], correct:2, explain:"Câu khiến dùng để yêu cầu/đề nghị."},
+    {subject:"Tiếng Việt", q:"Từ nào là từ chỉ cảm xúc?", a:["vui","bàn","chạy","xanh"], correct:0, explain:"'Vui' là cảm xúc."},
+    {subject:"Tiếng Việt", q:"Chọn dấu phù hợp: 'Bạn tên là gì__'", a:[".","!","?",";"], correct:2, explain:"Câu hỏi dùng dấu ?"},
+  ],
+
+  4: [
+    {subject:"Toán", q:"Số nào chia hết cho 5?", a:["142","315","267","488"], correct:1, explain:"Chia hết cho 5: tận cùng 0 hoặc 5 → 315."},
+    {subject:"Toán", q:"125 × 4 bằng:", a:["400","450","500","520"], correct:2, explain:"125×4 = 500."},
+    {subject:"Toán", q:"Rút gọn phân số 3/6 được:", a:["1/2","2/3","3/5","1/3"], correct:0, explain:"Chia cả tử và mẫu cho 3 → 1/2."},
+    {subject:"Toán", q:"Đổi 2,5 m = ... cm", a:["25","250","2500","205"], correct:1, explain:"1 m = 100 cm → 2,5 m = 250 cm."},
+    {subject:"Toán", q:"Tìm x: x − 38 = 125", a:["87","153","163","175"], correct:2, explain:"x = 125 + 38 = 163."},
+    {subject:"Toán", q:"Diện tích hình vuông cạnh 6 cm là:", a:["12","24","36","42"], correct:2, explain:"S = a×a = 6×6 = 36 cm²."},
+    {subject:"Toán", q:"27 chia hết cho 3 vì:", a:["2+7=9 chia hết cho 3","27 là số lẻ","27 nhỏ hơn 30","2×7=14"], correct:0, explain:"Tổng chữ số 2+7=9 chia hết cho 3."},
+    {subject:"Toán", q:"Số lớn nhất là:", a:["9 999","10 000","9 990","9 909"], correct:1, explain:"10 000 lớn nhất."},
+    {subject:"Toán", q:"Phân số nào lớn hơn 1/2?", a:["1/3","2/5","3/4","1/6"], correct:2, explain:"3/4 > 1/2."},
+    {subject:"Toán", q:"36 : 4 bằng:", a:["7","8","9","10"], correct:2, explain:"36 chia 4 bằng 9."},
+    {subject:"Toán", q:"48 : 6 bằng:", a:["6","7","8","9"], correct:2, explain:"48 chia 6 = 8."},
+    {subject:"Toán", q:"15 × 3 bằng:", a:["35","40","45","50"], correct:2, explain:"15×3 = 45."},
+    {subject:"Toán", q:"So sánh: 3/4 ___ 2/4", a:[">","<","=","không so sánh"], correct:0, explain:"Cùng mẫu 4, tử 3 > 2 nên 3/4 > 2/4."},
+    {subject:"Toán", q:"Đổi 1 kg = ... g", a:["10","100","1000","10000"], correct:2, explain:"1 kg = 1000 g."},
+    {subject:"Toán", q:"Chu vi hình vuông cạnh 5 cm là:", a:["10","15","20","25"], correct:2, explain:"P = 4×5 = 20 cm."},
+
+    {subject:"Tiếng Việt", q:"Từ nào là danh từ?", a:["chạy","bàn ghế","nhanh","đẹp"], correct:1, explain:"Bàn ghế là danh từ."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu khiến?", a:["Trời mưa.","Bạn tên gì?","Hãy giữ trật tự!","Ôi đẹp quá!"], correct:2, explain:"Câu khiến dùng để yêu cầu."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'chăm chỉ' là:", a:["siêng năng","lười biếng","cần cù","chuyên cần"], correct:1, explain:"Chăm chỉ ↔ lười biếng."},
+    {subject:"Tiếng Việt", q:"Dấu ngoặc kép thường dùng để:", a:["Kết thúc câu","Đánh dấu lời nói trực tiếp/tên tác phẩm","Chỉ phép nhân","Chỉ thời gian"], correct:1, explain:"Ngoặc kép dùng để dẫn lời, tên tác phẩm..."},
+    {subject:"Tiếng Việt", q:"Từ đồng nghĩa với 'bảo vệ' là:", a:["giữ gìn","phá hoại","làm bẩn","bỏ đi"], correct:0, explain:"Bảo vệ = giữ gìn."},
+    {subject:"Tiếng Việt", q:"Từ nào là động từ?", a:["hiền","chạy","xanh","cao"], correct:1, explain:"Chạy là động từ."},
+    {subject:"Tiếng Việt", q:"Tính từ trong cụm 'bông hoa đỏ' là:", a:["bông","hoa","đỏ","bông hoa"], correct:2, explain:"'Đỏ' là tính từ."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu hỏi?", a:["Em chăm học.","Bạn ở đâu?","Ôi đẹp quá!","Hãy vào lớp."], correct:1, explain:"Câu hỏi dùng dấu ?"},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'thật thà' là:", a:["gian dối","hiền","chăm","vui"], correct:0, explain:"Thật thà ↔ gian dối."},
+    {subject:"Tiếng Việt", q:"Chọn từ phù hợp: '___ lời hứa'", a:["giữ","đi","ngủ","ăn"], correct:0, explain:"Cụm đúng: giữ lời hứa."},
+    {subject:"Tiếng Việt", q:"Dấu hai chấm thường báo hiệu:", a:["Lời nói/liệt kê","Kết thúc câu","Ngắt nhịp thơ","Phép chia"], correct:0, explain:"Dấu ':' báo hiệu lời nói trực tiếp hoặc liệt kê."},
+    {subject:"Tiếng Việt", q:"Từ nào chỉ hoạt động trí tuệ?", a:["suy nghĩ","xanh","đẹp","cao"], correct:0, explain:"Suy nghĩ là hoạt động trí tuệ."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu cảm?", a:["Trời mưa.","Ôi, đẹp quá!","Bạn tên gì?","Hãy đi học."], correct:1, explain:"Câu cảm thường có từ cảm thán và dấu !"},
+    {subject:"Tiếng Việt", q:"Từ nào là từ ghép?", a:["lung linh","bàn ghế","đỏ đỏ","xanh xao"], correct:1, explain:"'Bàn ghế' là từ ghép."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'rộng rãi' là:", a:["hẹp hòi","bao dung","thoải mái","vui vẻ"], correct:0, explain:"Rộng rãi ↔ hẹp hòi."},
+  ],
+
+  5: [
+    {subject:"Toán", q:"0,75 viết dưới dạng phân số tối giản là:", a:["3/4","75/10","7/5","1/3"], correct:0, explain:"0,75 = 75/100 = 3/4."},
+    {subject:"Toán", q:"3,2 × 10 bằng:", a:["0,32","3,2","32","320"], correct:2, explain:"Nhân 10 dịch dấu phẩy sang phải 1 chữ số → 32."},
+    {subject:"Toán", q:"Tổng ba góc của tam giác bằng:", a:["90°","180°","270°","360°"], correct:1, explain:"Tổng ba góc tam giác là 180°."},
+    {subject:"Toán", q:"Tìm x: 2x = 48", a:["12","20","24","36"], correct:2, explain:"x = 48 : 2 = 24."},
+    {subject:"Toán", q:"Đổi 1,5 km = ... m", a:["150","1500","15 000","1 500 000"], correct:1, explain:"1 km = 1000 m → 1,5 km = 1500 m."},
+    {subject:"Toán", q:"Tỉ số phần trăm của 25 và 200 là:", a:["8%","10%","12,5%","25%"], correct:2, explain:"25/200 = 0,125 = 12,5%."},
+    {subject:"Toán", q:"Một hình tròn bán kính 3 cm, đường kính là:", a:["3","6","9","12"], correct:1, explain:"Đường kính = 2×bán kính = 6 cm."},
+    {subject:"Toán", q:"12% của 50 là:", a:["6","8","10","12"], correct:0, explain:"12/100×50 = 6."},
+    {subject:"Toán", q:"Thể tích hình hộp chữ nhật 5×3×2 là:", a:["10","20","30","40"], correct:2, explain:"V = 5×3×2 = 30."},
+    {subject:"Toán", q:"0,4 = ...%", a:["4%","40%","0,4%","400%"], correct:1, explain:"0,4 = 40/100 = 40%."},
+    {subject:"Toán", q:"1/5 của 45 là:", a:["7","8","9","10"], correct:2, explain:"45 : 5 = 9."},
+    {subject:"Toán", q:"So sánh: 0,8 ___ 0,75", a:[">","<","=","không so sánh"], correct:0, explain:"0,80 lớn hơn 0,75."},
+    {subject:"Toán", q:"Diện tích hình chữ nhật dài 8, rộng 5 là:", a:["13","30","40","80"], correct:2, explain:"S = 8×5 = 40."},
+    {subject:"Toán", q:"Chu vi hình chữ nhật dài 8, rộng 5 là:", a:["13","26","40","80"], correct:1, explain:"P = (8+5)×2 = 26."},
+    {subject:"Toán", q:"7,5 + 2,5 = ?", a:["9","10","11","12"], correct:1, explain:"7,5 + 2,5 = 10."},
+
+    {subject:"Tiếng Việt", q:"Câu nào là câu ghép?", a:["Trời mưa.","Em chăm học.","Trời mưa nên đường trơn.","Vì trời mưa."], correct:2, explain:"Có 2 vế: Trời mưa / nên đường trơn."},
+    {subject:"Tiếng Việt", q:"Dấu hai chấm thường dùng để:", a:["Kết thúc câu","Báo hiệu lời nói/liệt kê","Chỉ phép chia","Ngắt đoạn"], correct:1, explain:"Dấu ':' báo hiệu lời nói trực tiếp hoặc liệt kê."},
+    {subject:"Tiếng Việt", q:"Từ đồng nghĩa với 'trung thực' là:", a:["thật thà","gian dối","lười biếng","bừa bãi"], correct:0, explain:"Trung thực = thật thà."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'thành công' là:", a:["thất bại","chiến thắng","vui vẻ","nỗ lực"], correct:0, explain:"Thành công ↔ thất bại."},
+    {subject:"Tiếng Việt", q:"Từ nào là quan hệ từ?", a:["và","đẹp","chạy","bàn"], correct:0, explain:"'Và' dùng để nối."},
+    {subject:"Tiếng Việt", q:"Câu nào thể hiện lời khuyên?", a:["Mau lên!","Bạn ăn cơm.","Bạn tên gì?","Bạn nên ngủ sớm."], correct:3, explain:"Từ 'nên' thể hiện lời khuyên."},
+    {subject:"Tiếng Việt", q:"Từ nào là từ ghép?", a:["lung linh","bàn ghế","đỏ đỏ","xanh xao"], correct:1, explain:"'Bàn ghế' là từ ghép."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'dũng cảm' là:", a:["nhút nhát","mạnh mẽ","thẳng thắn","tốt bụng"], correct:0, explain:"Dũng cảm ↔ nhút nhát."},
+    {subject:"Tiếng Việt", q:"Từ nào là từ chỉ phẩm chất?", a:["chăm chỉ","bàn","chạy","xanh"], correct:0, explain:"Chăm chỉ là phẩm chất."},
+    {subject:"Tiếng Việt", q:"Câu nào là câu hỏi?", a:["Em đi học.","Bạn ở đâu?","Ôi đẹp quá!","Hãy vào lớp."], correct:1, explain:"Câu hỏi dùng dấu ?"},
+    {subject:"Tiếng Việt", q:"Từ nào là động từ?", a:["đẹp","học","xanh","cao"], correct:1, explain:"Học là động từ."},
+    {subject:"Tiếng Việt", q:"Dấu ngoặc kép dùng để:", a:["Chỉ thời gian","Đánh dấu lời nói trực tiếp/tên tác phẩm","Chỉ phép nhân","Ngăn câu"], correct:1, explain:"Ngoặc kép thường dùng để dẫn lời."},
+    {subject:"Tiếng Việt", q:"Từ đồng nghĩa với 'bảo vệ' là:", a:["giữ gìn","phá hoại","bỏ mặc","làm bẩn"], correct:0, explain:"Bảo vệ = giữ gìn."},
+    {subject:"Tiếng Việt", q:"Chọn cách viết đúng:", a:["kỉ niệm","kỷ niệm","kĩ niệm","kỷ niêm"], correct:1, explain:"Cách viết thông dụng: kỷ niệm."},
+    {subject:"Tiếng Việt", q:"Từ trái nghĩa với 'rộng rãi' là:", a:["hẹp hòi","bao dung","tốt bụng","vui vẻ"], correct:0, explain:"Rộng rãi ↔ hẹp hòi."},
+  ],
+};
+
+const BANK_MODE = {
+  khoahoc: [
+    {subject:"Khoa học", q:"Nước sôi ở khoảng:", a:["50°C","80°C","100°C","150°C"], correct:2, explain:"Ở điều kiện thường, nước sôi khoảng 100°C."},
+    {subject:"Khoa học", q:"Hiện tượng ngưng tụ là khi:", a:["Nước lỏng thành hơi","Hơi nước thành giọt nước","Băng tan","Nước sôi"], correct:1, explain:"Ngưng tụ: hơi nước gặp lạnh thành giọt."},
+    {subject:"Khoa học", q:"Chất không hòa tan trong nước:", a:["Muối","Đường","Cát","Bột canh"], correct:2, explain:"Cát không hòa tan trong nước."},
+    {subject:"Khoa học", q:"Kim loại thường:", a:["Cách điện tốt","Dẫn điện tốt","Không dẫn nhiệt","Không dẫn điện"], correct:1, explain:"Kim loại thường dẫn điện tốt."},
+    {subject:"Khoa học", q:"Nhựa thường là:", a:["Vật dẫn điện","Vật cách điện","Vật phát sáng","Vật hút nam châm"], correct:1, explain:"Nhựa thường cách điện."},
+    {subject:"Khoa học", q:"Gió là:", a:["Không khí chuyển động","Nước chảy","Ánh sáng","Đất rung"], correct:0, explain:"Gió là không khí chuyển động."},
+    {subject:"Khoa học", q:"Lực hấp dẫn Trái Đất làm vật:", a:["Rơi xuống","Bay lên mãi","Đứng yên luôn","Tan chảy"], correct:0, explain:"Hấp dẫn kéo vật về phía mặt đất."},
+    {subject:"Khoa học", q:"Để tiết kiệm điện, nên:", a:["Bật đèn cả ngày","Tắt khi không dùng","Cắm sạc mãi","Bật quạt khi ra ngoài"], correct:1, explain:"Tắt thiết bị khi không dùng giúp tiết kiệm."},
+    {subject:"Khoa học", q:"Pin đã dùng nên bỏ vào:", a:["Ao hồ","Thùng rác chung","Nơi thu gom riêng","Sân trường"], correct:2, explain:"Pin là rác thải cần thu gom riêng."},
+    {subject:"Khoa học", q:"Đường kính hình tròn bằng:", a:["Bằng bán kính","2 lần bán kính","3 lần bán kính","4 lần bán kính"], correct:1, explain:"Đường kính = 2×bán kính."},
+
+    {subject:"Khoa học", q:"Cây cần ánh sáng để:", a:["Phát triển","Biến mất","Chạy","Ngủ"], correct:0, explain:"Ánh sáng giúp cây phát triển."},
+    {subject:"Khoa học", q:"Rễ cây có tác dụng:", a:["Hút nước và giữ cây","Tạo hoa","Tạo quả","Tỏa mùi"], correct:0, explain:"Rễ hút nước và giữ cây đứng vững."},
+    {subject:"Khoa học", q:"Chuỗi thức ăn đơn giản:", a:["Cỏ → Thỏ → Cáo","Cáo → Cỏ → Thỏ","Thỏ → Cáo → Cỏ","Cỏ → Cáo → Thỏ"], correct:0, explain:"Cỏ bị thỏ ăn, thỏ bị cáo ăn."},
+    {subject:"Khoa học", q:"Mưa xảy ra do:", a:["Nước bốc hơi rồi ngưng tụ","Đất tan chảy","Gió đứng yên","Cây rụng lá"], correct:0, explain:"Nước bốc hơi → ngưng tụ thành mây → rơi xuống."},
+    {subject:"Khoa học", q:"Tách muối khỏi nước biển bằng:", a:["Lọc","Cô cạn (đun/phơi)","Khuấy","Đông lạnh"], correct:1, explain:"Cô cạn làm nước bay hơi, còn muối."},
+    {subject:"Khoa học", q:"Dầu và nước có thể tách bằng:", a:["Gạn lớp dầu nổi","Hòa tan","Nghiền","Đốt"], correct:0, explain:"Dầu nhẹ hơn nước nên nổi lên."},
+    {subject:"Khoa học", q:"Âm thanh phát ra khi vật:", a:["Đứng yên","Rung","Tan chảy","Đổi màu"], correct:1, explain:"Vật rung tạo ra âm thanh."},
+    {subject:"Khoa học", q:"Năng lượng tái tạo là:", a:["Than đá","Dầu mỏ","Gió","Khí đốt"], correct:2, explain:"Gió là năng lượng tái tạo."},
+    {subject:"Khoa học", q:"Để giảm rác nhựa, nên:", a:["Dùng túi vải","Dùng nhiều ống nhựa","Xả rác","Đốt nhựa"], correct:0, explain:"Túi vải tái sử dụng giúp giảm nhựa."},
+    {subject:"Khoa học", q:"Ma sát giúp chúng ta:", a:["Luôn trượt ngã","Đi không trượt","Bay lên","Tan chảy"], correct:1, explain:"Ma sát giúp chân bám đất."},
+
+    {subject:"Khoa học", q:"Không khí có ở:", a:["Chỉ ngoài trời","Chỉ trong nhà","Khắp nơi quanh ta","Chỉ trong nước"], correct:2, explain:"Không khí có khắp nơi quanh ta."},
+    {subject:"Khoa học", q:"Vật bị nam châm hút thường là:", a:["Gỗ","Nhựa","Sắt","Giấy"], correct:2, explain:"Nam châm hút sắt (và một số kim loại)."},
+    {subject:"Khoa học", q:"Khi trời nóng, nên:", a:["Uống đủ nước","Không uống nước","Mặc áo dày","Chạy giữa nắng lâu"], correct:0, explain:"Uống đủ nước giúp tránh mất nước."},
+    {subject:"Khoa học", q:"Bảo vệ mắt bằng cách:", a:["Đọc thiếu sáng","Ngồi đúng tư thế, đủ ánh sáng","Nhìn màn hình rất lâu","Dụi mắt"], correct:1, explain:"Tư thế đúng và đủ ánh sáng bảo vệ mắt."},
+    {subject:"Khoa học", q:"Thực hành an toàn điện: không nên", a:["Tắt điện khi không dùng","Chạm tay ướt vào ổ điện","Báo người lớn khi hỏng","Dùng thiết bị đúng cách"], correct:1, explain:"Tay ướt chạm ổ điện rất nguy hiểm."},
+    {subject:"Khoa học", q:"Hơi nước gặp lạnh sẽ:", a:["Đông lại thành băng ngay","Ngưng tụ thành giọt","Biến mất","Tự phát sáng"], correct:1, explain:"Hơi nước ngưng tụ thành giọt nước."},
+    {subject:"Khoa học", q:"Để tiết kiệm nước, nên:", a:["Khóa vòi khi không dùng","Mở vòi liên tục","Tắm rất lâu","Đổ nước sạch đi"], correct:0, explain:"Khóa vòi khi không dùng giúp tiết kiệm nước."},
+    {subject:"Khoa học", q:"Chất tan tạo dung dịch thường là:", a:["Đá + nước","Đường + nước","Sỏi + nước","Cát + nước"], correct:1, explain:"Đường hòa tan tạo dung dịch."},
+    {subject:"Khoa học", q:"Đun nóng nước làm nước:", a:["Đông lại","Bốc hơi nhanh hơn","Không đổi","Hóa đá"], correct:1, explain:"Nhiệt độ cao làm bốc hơi nhanh hơn."},
+    {subject:"Khoa học", q:"Khi cháy, ưu tiên:", a:["Đùa với lửa","Báo người lớn/thoát an toàn","Trốn trong phòng kín","Chạy vào nơi có khói"], correct:1, explain:"Báo người lớn và thoát theo lối an toàn."},
+  ],
+  lichsu: [
+    {subject:"Lịch sử", q:"Di tích lịch sử cần được:", a:["Giữ gìn","Vẽ bậy","Phá hoại","Lấy đồ"], correct:0, explain:"Giữ gìn di tích là bảo tồn văn hóa."},
+    {subject:"Lịch sử", q:"Tôn trọng truyền thống là:", a:["Chê bai","Giữ gìn, học hỏi","Phá bỏ","Bỏ mặc"], correct:1, explain:"Giữ gìn và học hỏi truyền thống tốt đẹp."},
+    {subject:"Lịch sử", q:"Uống nước nhớ nguồn nghĩa là:", a:["Biết ơn người đi trước","Không cần nhớ ai","Chỉ uống nước","Chỉ nhớ bạn"], correct:0, explain:"Là biết ơn công lao của người đi trước."},
+    {subject:"Lịch sử", q:"Ngày hội truyền thống ở địa phương giúp:", a:["Gây ồn vô ích","Gắn kết cộng đồng","Phá hoại","Xả rác"], correct:1, explain:"Lễ hội giúp gắn kết và giữ bản sắc."},
+    {subject:"Lịch sử", q:"Giữ gìn văn hóa ứng xử là:", a:["Nói tục","Lịch sự, tôn trọng","Chen lấn","Vẽ bậy"], correct:1, explain:"Lịch sự, tôn trọng là văn hóa."},
+    {subject:"Lịch sử", q:"Bảo vệ di sản là:", a:["Khắc tên lên tường","Không xả rác, không phá hoại","Bẻ cây","Lấy đồ lưu niệm"], correct:1, explain:"Giữ sạch và không phá hoại di sản."},
+    {subject:"Lịch sử", q:"Tình yêu quê hương thể hiện ở:", a:["Phá hoại nơi ở","Giữ gìn môi trường, tôn trọng cộng đồng","Nói xấu","Xả rác"], correct:1, explain:"Giữ gìn nơi sống là yêu quê hương."},
+    {subject:"Lịch sử", q:"Tôn trọng người có công là:", a:["Chế giễu","Biết ơn và học tập theo gương","Bỏ qua","Không quan tâm"], correct:1, explain:"Biết ơn giúp tiếp nối giá trị tốt đẹp."},
+    {subject:"Lịch sử", q:"Giữ gìn kỷ niệm lịch sử giúp:", a:["Quên quá khứ","Hiểu nguồn gốc và tự hào","Gây rắc rối","Không ích lợi"], correct:1, explain:"Hiểu lịch sử giúp trân trọng hiện tại."},
+    {subject:"Lịch sử", q:"Hành động đúng khi tham quan di tích:", a:["Xếp hàng, giữ trật tự","Chen lấn","Vẽ bậy","Xả rác"], correct:0, explain:"Xếp hàng và giữ trật tự là văn minh."},
+    {subject:"Lịch sử", q:"Truyền thống tốt đẹp cần:", a:["Phát huy","Bỏ đi","Chê bai","Phá bỏ"], correct:0, explain:"Truyền thống tốt đẹp cần được phát huy."},
+    {subject:"Lịch sử", q:"Lòng biết ơn thể hiện qua:", a:["Cảm ơn và hành động tốt","Nói xấu","Thờ ơ","Đòi hỏi"], correct:0, explain:"Biết ơn bằng lời nói và việc làm."},
+    {subject:"Lịch sử", q:"Giữ gìn bản sắc là:", a:["Bắt chước xấu","Tôn trọng nét đẹp địa phương","Chê tiếng nói","Chê trang phục"], correct:1, explain:"Tôn trọng nét đẹp văn hóa địa phương."},
+    {subject:"Lịch sử", q:"Tôn trọng quốc kỳ/quốc ca là:", a:["Đùa cợt","Nghiêm túc, đúng quy định","Vẽ bậy","Xé giấy"], correct:1, explain:"Nghiêm túc thể hiện sự tôn trọng."},
+    {subject:"Lịch sử", q:"Khi nghe kể chuyện lịch sử, em nên:", a:["Lắng nghe","Cắt lời","Nói chuyện riêng","Chê bai"], correct:0, explain:"Lắng nghe để hiểu và học được bài học."},
+  ],
+  diali: [
+    {subject:"Địa lí", q:"Bản đồ dùng để:", a:["Nấu ăn","Xác định vị trí/đường đi","Chơi bóng","Đo cân nặng"], correct:1, explain:"Bản đồ giúp xác định vị trí và đường đi."},
+    {subject:"Địa lí", q:"Hướng mặt trời thường mọc là:", a:["Tây","Đông","Nam","Bắc"], correct:1, explain:"Mặt trời thường mọc ở hướng Đông."},
+    {subject:"Địa lí", q:"Màu xanh dương trên bản đồ thường chỉ:", a:["Đất","Nước","Núi","Đường"], correct:1, explain:"Xanh dương thường ký hiệu sông, hồ, biển."},
+    {subject:"Địa lí", q:"Đồng bằng thường có địa hình:", a:["Cao, dốc","Phẳng, thấp","Băng tuyết","Toàn đá"], correct:1, explain:"Đồng bằng khá phẳng và thấp."},
+    {subject:"Địa lí", q:"Sông ngòi có vai trò:", a:["Không ích lợi","Cung cấp nước, phù sa, giao thông","Chỉ gây lũ","Chỉ để chơi"], correct:1, explain:"Sông cung cấp nước và phù sa, hỗ trợ giao thông."},
+    {subject:"Địa lí", q:"Thời tiết là:", a:["Tình hình khí quyển trong thời gian ngắn","Luôn giống nhau","Chỉ có mưa","Chỉ có nắng"], correct:0, explain:"Thời tiết thay đổi theo ngày/giờ."},
+    {subject:"Địa lí", q:"Khí hậu là:", a:["Thời tiết một ngày","Đặc điểm thời tiết lâu dài của nơi đó","Chỉ mưa","Chỉ nắng"], correct:1, explain:"Khí hậu là đặc điểm thời tiết lâu dài."},
+    {subject:"Địa lí", q:"Biển có vai trò:", a:["Không liên quan","Cung cấp hải sản và giao thông","Chỉ để tắm","Chỉ để ngắm"], correct:1, explain:"Biển quan trọng về kinh tế và giao thông."},
+    {subject:"Địa lí", q:"Rừng có ích vì:", a:["Gây nóng","Bảo vệ đất, điều hòa không khí","Làm bẩn","Không tác dụng"], correct:1, explain:"Rừng giúp bảo vệ đất và không khí."},
+    {subject:"Địa lí", q:"Nguồn nước sạch cần:", a:["Xả rác","Giữ gìn, không làm ô nhiễm","Đổ hóa chất","Đổ dầu"], correct:1, explain:"Giữ nguồn nước sạch để bảo vệ sức khỏe."},
+    {subject:"Địa lí", q:"Khi đi tham quan, em nên:", a:["Xả rác","Giữ vệ sinh","Bẻ cây","Vẽ bậy"], correct:1, explain:"Giữ vệ sinh giúp bảo vệ môi trường."},
+    {subject:"Địa lí", q:"Mùa mưa thường có:", a:["Ít mưa","Mưa nhiều","Không gió","Không mây"], correct:1, explain:"Mùa mưa đặc trưng là mưa nhiều."},
+    {subject:"Địa lí", q:"Mùa khô thường có:", a:["Mưa nhiều","Ít mưa","Băng tuyết","Không nắng"], correct:1, explain:"Mùa khô thường ít mưa."},
+    {subject:"Địa lí", q:"Dòng sông chảy từ:", a:["Nơi thấp lên cao","Nơi cao xuống thấp","Không chảy","Từ biển lên núi"], correct:1, explain:"Nước chảy từ cao xuống thấp do trọng lực."},
+    {subject:"Địa lí", q:"Thiên tai cần phòng tránh bằng:", a:["Chủ quan","Theo dõi dự báo, chuẩn bị an toàn","Xả rác","Đi vào vùng nguy hiểm"], correct:1, explain:"Theo dõi cảnh báo và chuẩn bị giúp giảm rủi ro."},
+  ],
+  kynang: [
+    {subject:"Kỹ năng", q:"Khi muốn phát biểu, em nên:", a:["Nói chen","Giơ tay xin phép","Im lặng mãi","Chạy lên bảng"], correct:1, explain:"Giơ tay xin phép là lịch sự."},
+    {subject:"Kỹ năng", q:"Khi làm việc nhóm, em nên:", a:["Không nghe ai","Chia việc và lắng nghe","Giành phần dễ","Đổ lỗi"], correct:1, explain:"Chia việc và lắng nghe giúp nhóm hiệu quả."},
+    {subject:"Kỹ năng", q:"Khi gặp người lạ cho quà, em nên:", a:["Nhận ngay","Từ chối và báo người lớn","Đi theo","Cho bạn khác"], correct:1, explain:"Không nhận quà người lạ để an toàn."},
+    {subject:"Kỹ năng", q:"An toàn trên mạng: không nên", a:["Giữ mật khẩu","Chia sẻ mật khẩu","Hỏi người lớn khi cần","Không công khai địa chỉ"], correct:1, explain:"Mật khẩu là thông tin riêng, không chia sẻ."},
+    {subject:"Kỹ năng", q:"Khi tranh luận, em cần:", a:["La hét","Tôn trọng và nêu lý do","Chê bai","Cắt lời"], correct:1, explain:"Tôn trọng giúp tranh luận văn minh."},
+    {subject:"Kỹ năng", q:"Nếu làm sai, em nên:", a:["Đổ lỗi","Nhận lỗi và sửa","Giấu đi","Cãi"], correct:1, explain:"Nhận lỗi và sửa giúp tiến bộ."},
+    {subject:"Kỹ năng", q:"Khi bạn buồn, em nên:", a:["Trêu bạn","Hỏi han và an ủi","Cười lớn","Bỏ đi"], correct:1, explain:"An ủi giúp bạn thấy được quan tâm."},
+    {subject:"Kỹ năng", q:"Trước khi qua đường, em nên:", a:["Nhắm mắt chạy","Nhìn trái–phải–trái","Vừa đi vừa dùng điện thoại","Đi tùy ý"], correct:1, explain:"Quan sát giúp qua đường an toàn."},
+    {subject:"Kỹ năng", q:"Khi ho/hắt hơi, em nên:", a:["Che miệng đúng cách","Ho vào mặt bạn","La to","Chạy quanh lớp"], correct:0, explain:"Che miệng giúp lịch sự và phòng lây nhiễm."},
+    {subject:"Kỹ năng", q:"Nếu bị lạc, em nên:", a:["Đi theo người lạ","Đứng yên và nhờ người có trách nhiệm giúp","Chạy lung tung","Giấu mình"], correct:1, explain:"Nhờ bảo vệ/công an/người lớn đáng tin cậy."},
+
+    {subject:"Kỹ năng", q:"Khi học, em nên:", a:["Chơi điện thoại","Tập trung nghe giảng","Nói chuyện riêng","Ném giấy"], correct:1, explain:"Tập trung giúp tiếp thu tốt."},
+    {subject:"Kỹ năng", q:"Khi mượn đồ của bạn, cần:", a:["Giật lấy","Xin phép trước","Lấy rồi trả sau","Giấu đi"], correct:1, explain:"Xin phép là tôn trọng."},
+    {subject:"Kỹ năng", q:"Khi thấy ổ điện hỏng, em:", a:["Chạm thử","Báo người lớn","Đổ nước vào","Cắm thêm thiết bị"], correct:1, explain:"Báo người lớn để xử lý an toàn."},
+    {subject:"Kỹ năng", q:"Khi bị bắt nạt, em nên:", a:["Im lặng chịu","Báo thầy cô/người lớn","Đánh lại ngay","Bỏ học"], correct:1, explain:"Báo người lớn để được hỗ trợ."},
+    {subject:"Kỹ năng", q:"Giữ vệ sinh lớp học bằng cách:", a:["Xả rác","Bỏ rác đúng nơi","Vẽ bậy","Bóc giấy vứt"], correct:1, explain:"Bỏ rác đúng nơi giữ lớp sạch."},
+    {subject:"Kỹ năng", q:"Khi gặp tin lạ trên mạng, em nên:", a:["Chia sẻ ngay","Kiểm tra nguồn và hỏi người lớn","Tin luôn","Bấm link lạ"], correct:1, explain:"Kiểm chứng trước khi chia sẻ."},
+    {subject:"Kỹ năng", q:"Quản lý thời gian tốt là:", a:["Luôn làm muộn","Ưu tiên việc quan trọng","Bỏ hết bài","Chỉ chơi"], correct:1, explain:"Ưu tiên giúp làm việc hiệu quả."},
+    {subject:"Kỹ năng", q:"Khi căng thẳng, em có thể:", a:["Đập đồ","Hít thở sâu","Cãi nhau","Thức khuya"], correct:1, explain:"Hít thở sâu giúp bình tĩnh."},
+    {subject:"Kỹ năng", q:"Ứng xử văn minh nơi công cộng:", a:["Chen lấn","Xếp hàng","Nói tục","Xả rác"], correct:1, explain:"Xếp hàng thể hiện văn minh."},
+    {subject:"Kỹ năng", q:"Khi thấy bạn gặp khó, em nên:", a:["Bỏ mặc","Giúp trong khả năng và báo thầy cô khi cần","Trêu","Quay clip"], correct:1, explain:"Giúp đỡ đúng cách là tốt."},
+
+    {subject:"Kỹ năng", q:"Khi có cháy, em nên:", a:["Trốn trong phòng kín","Báo người lớn và thoát theo lối an toàn","Chạy vào nơi có khói","Đùa với lửa"], correct:1, explain:"Thoát hiểm đúng cách và báo người lớn."},
+    {subject:"Kỹ năng", q:"Khi tham gia giao thông bằng xe máy, cần:", a:["Không cần mũ","Đội mũ bảo hiểm","Đùa nghịch","Thò tay ra ngoài"], correct:1, explain:"Đội mũ bảo hiểm giảm nguy cơ chấn thương."},
+    {subject:"Kỹ năng", q:"Khi bạn nói, em nên:", a:["Cắt lời","Lắng nghe","Cười nhạo","Bỏ đi"], correct:1, explain:"Lắng nghe thể hiện tôn trọng."},
+    {subject:"Kỹ năng", q:"Khi bị điểm chưa tốt, em nên:", a:["Bỏ học","Cố gắng luyện tập","Giấu bài","Đổ lỗi"], correct:1, explain:"Luyện tập giúp tiến bộ."},
+    {subject:"Kỹ năng", q:"Nếu người lạ nhắn tin xin địa chỉ nhà, em:", a:["Cho ngay","Từ chối và báo người lớn","Hẹn gặp","Gửi ảnh nhà"], correct:1, explain:"Không cung cấp thông tin cá nhân."},
+    {subject:"Kỹ năng", q:"Khi làm rơi rác, em cần:", a:["Bỏ mặc","Nhặt lên và bỏ đúng chỗ","Đá đi","Giấu dưới bàn"], correct:1, explain:"Nhặt rác giữ môi trường sạch."},
+    {subject:"Kỹ năng", q:"Khi muốn nhờ bạn giúp, em nên:", a:["Ra lệnh","Nói lịch sự, rõ ràng","Cáu gắt","Im lặng"], correct:1, explain:"Nói lịch sự giúp hợp tác tốt."},
+    {subject:"Kỹ năng", q:"Khi có mâu thuẫn, em nên:", a:["Đánh nhau","Bình tĩnh nói chuyện","Đập đồ","Tẩy chay"], correct:1, explain:"Bình tĩnh giúp giải quyết hòa bình."},
+    {subject:"Kỹ năng", q:"Tôn trọng sự khác biệt là:", a:["Chê bai","Không chế giễu, biết lắng nghe","Tẩy chay","Bắt giống mình"], correct:1, explain:"Tôn trọng khác biệt giúp hòa đồng."},
+    {subject:"Kỹ năng", q:"Trước khi ăn, em cần:", a:["Rửa tay","Chơi đất","Sờ ổ điện","Chạy nhảy"], correct:0, explain:"Rửa tay giúp phòng bệnh."},
+
+    {subject:"Kỹ năng", q:"Khi làm xong việc, em nên:", a:["Bỏ bừa","Cất gọn","Đá đi","Giấu"], correct:1, explain:"Cất gọn giúp ngăn nắp."},
+    {subject:"Kỹ năng", q:"Nếu bị đau/ốm ở trường, em:", a:["Giấu đi","Báo thầy cô/y tế","Chạy ra cổng","Tự uống thuốc lạ"], correct:1, explain:"Báo thầy cô để xử lý an toàn."},
+    {subject:"Kỹ năng", q:"Khi đọc thông tin, em nên:", a:["Tin ngay","Kiểm tra nguồn","Chia sẻ luôn","Chửi lại"], correct:1, explain:"Kiểm chứng giúp tránh tin giả."},
+    {subject:"Kỹ năng", q:"Khi nhận xét bạn, em nên:", a:["Chê bai nặng lời","Góp ý lịch sự, cụ thể","Mỉa mai","Nói sau lưng"], correct:1, explain:"Góp ý lịch sự giúp bạn tiến bộ."},
+    {subject:"Kỹ năng", q:"Khi thấy bạn bị trêu chọc, em:", a:["Cổ vũ","Báo thầy cô/người lớn","Trêu thêm","Quay clip"], correct:1, explain:"Báo người lớn để can thiệp."},
+    {subject:"Kỹ năng", q:"Khi dùng kéo/dao rọc giấy, cần:", a:["Cầm chạy","Chỉa vào bạn","Dùng cẩn thận, cất gọn","Ném lên"], correct:2, explain:"Vật sắc nhọn cần dùng đúng cách."},
+    {subject:"Kỹ năng", q:"Khi cần xin lỗi, em nên:", a:["Xin lỗi và sửa sai","Im lặng","Đổ lỗi","Cãi"], correct:0, explain:"Xin lỗi và sửa sai thể hiện trách nhiệm."},
+    {subject:"Kỹ năng", q:"Khi gặp việc khó, em nên:", a:["Bỏ cuộc","Cố gắng và nhờ hỗ trợ phù hợp","Phá đồ","Đổ lỗi"], correct:1, explain:"Kiên trì và nhờ hỗ trợ giúp vượt khó."},
+    {subject:"Kỹ năng", q:"Khi tham gia hoạt động lớp, em nên:", a:["Trốn","Hợp tác","Cãi nhau","Phá"], correct:1, explain:"Hợp tác giúp hoạt động hiệu quả."},
+    {subject:"Kỹ năng", q:"Khi chơi xong, em cần:", a:["Vứt đồ chơi","Thu dọn","Đẩy bạn","Lấy đồ bạn"], correct:1, explain:"Thu dọn giúp gọn gàng."},
+  ]
+};
+
+/* =========================
+   3) TIỆN ÍCH
+   ========================= */
+const el = (id)=>document.getElementById(id);
+function escapeHtml(s){
+  return String(s).replace(/[&<>"']/g, m=>({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[m]));
+}
+function toast(msg){
+  const t = el("toast");
+  t.textContent = msg;
+  t.style.display = "block";
+  clearTimeout(toast._t);
+  toast._t = setTimeout(()=>t.style.display="none", 2200);
+}
+function shuffle(arr){
+  const a = arr.slice();
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]]=[a[j],a[i]];
+  }
+  return a;
+}
+function formatTimer(sec){
+  const s = Math.max(0, sec|0);
+  return String(s).padStart(2,"0");
+}
+function modeLabel(mode){
+  return ({
+    theolop: "Theo lớp",
+    khoahoc: "Khoa học",
+    lichsu: "Lịch sử",
+    diali: "Địa lí",
+    kynang: "Kỹ năng"
+  })[mode] || mode;
+}
+
+/* =========================
+   4) TTS: chọn giọng VN + đọc phép tính rõ ràng
+   ========================= */
+let voicesReady = false;
+let selectedVoice = null;
+
+function loadVoices(){
+  const vs = window.speechSynthesis?.getVoices?.() || [];
+  if(!vs.length) return;
+  selectedVoice = vs.find(v => /vi-VN/i.test(v.lang)) || vs.find(v => /vi/i.test(v.lang)) || vs[0];
+  voicesReady = true;
+}
+function speak(text){
+  if(!("speechSynthesis" in window)) return;
+  if(!voicesReady) loadVoices();
+  window.speechSynthesis.cancel();
+
+  const u = new SpeechSynthesisUtterance(text);
+  if(selectedVoice) u.voice = selectedVoice;
+  u.lang = selectedVoice?.lang || "vi-VN";
+  u.rate = ROUND.ttsRate;
+  u.pitch = ROUND.ttsPitch;
+  u.volume = 1;
+  window.speechSynthesis.speak(u);
+}
+function toVietnameseMathRead(qText){
+  let t = String(qText);
+
+  // Chuẩn hóa ký hiệu
+  t = t.replace(/×|\*/g, " nhân ");
+  t = t.replace(/÷/g, " chia ");
+  t = t.replace(/\//g, " chia ");
+  t = t.replace(/−/g, "-");
+
+  // Nếu có dạng "10-3 =" hoặc "10 - 3 = ?"
+  // → đọc thành "10 trừ 3 bằng bao nhiêu"
+  const hasEq = /=/.test(t);
+  t = t.replace(/=/g, " bằng ");
+
+  // đọc dấu -
+  t = t.replace(/(\d)\s*-\s*(\d)/g, "$1 trừ $2");
+
+  // nếu kết thúc bằng "bằng" hoặc "bằng ?" thì thêm "bao nhiêu"
+  t = t.replace(/\b(bằng)\s*\?*$/i, "bằng bao nhiêu");
+
+  // dọn khoảng trắng
+  t = t.replace(/\s+/g, " ").trim();
+
+  // Nếu chưa có "bao nhiêu" mà có dấu ? và môn Toán, cũng thêm cho tự nhiên
+  if(hasEq && !/bao nhiêu/i.test(t)) t = t + " bao nhiêu";
+  return t;
+}
+
+/* =========================
+   5) ÂM ĐÚNG/SAI (WebAudio) + FX
+   ========================= */
+let audioCtx = null;
+let sfxOn = true;
+
+function ensureAudio(){
+  if(audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+}
+function playNoiseBurst(duration=0.18, gainValue=0.22){
+  const ctx = audioCtx;
+  const bufferSize = Math.floor(ctx.sampleRate * duration);
+  const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+  const data = buffer.getChannelData(0);
+  for(let i=0;i<bufferSize;i++){
+    data[i] = (Math.random()*2 - 1) * (1 - i/bufferSize); // giảm dần
+  }
+  const src = ctx.createBufferSource();
+  src.buffer = buffer;
+
+  const g = ctx.createGain();
+  g.gain.value = gainValue;
+
+  src.connect(g);
+  g.connect(ctx.destination);
+  src.start();
+}
+function sfxCorrect(){
+  if(!sfxOn) return;
+  ensureAudio();
+  const ctx = audioCtx;
+  const t = ctx.currentTime;
+
+  // “pháo” (noise burst) + “vỗ tay” (nhịp burst)
+  playNoiseBurst(0.12, 0.20);
+  setTimeout(()=>playNoiseBurst(0.10, 0.18), 120);
+  setTimeout(()=>playNoiseBurst(0.10, 0.18), 240);
+
+  // “ting” vui
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "triangle";
+  o.frequency.setValueAtTime(880, t);
+  o.frequency.exponentialRampToValueAtTime(1320, t+0.12);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.22, t+0.02);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+0.24);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(t+0.26);
+}
+function sfxWrong(){
+  if(!sfxOn) return;
+  ensureAudio();
+  const ctx = audioCtx;
+  const t = ctx.currentTime;
+
+  // tiếng “bùm” trầm nhẹ + noise nhỏ
+  playNoiseBurst(0.16, 0.10);
+
+  const o = ctx.createOscillator();
+  const g = ctx.createGain();
+  o.type = "square";
+  o.frequency.setValueAtTime(220, t);
+  o.frequency.exponentialRampToValueAtTime(140, t+0.18);
+  g.gain.setValueAtTime(0.0001, t);
+  g.gain.exponentialRampToValueAtTime(0.20, t+0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001, t+0.35);
+  o.connect(g); g.connect(ctx.destination);
+  o.start(); o.stop(t+0.38);
+}
+
+function showCorrectFX(){
+  const layer = el("fxLayer");
+  const badge = el("fxBadge");
+  const sad = el("sadFace");
+  sad.style.display="none";
+  badge.textContent = "🎉 ĐÚNG! 👏";
+  layer.style.display="block";
+
+  // Confetti
+  for(let i=0;i<28;i++){
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.left = (Math.random()*100) + "vw";
+    c.style.animationDuration = (700 + Math.random()*550) + "ms";
+    c.style.transform = `translateY(-20px) rotate(${Math.random()*180}deg)`;
+    c.style.background = `hsl(${Math.floor(Math.random()*360)}, 90%, 60%)`;
+    layer.appendChild(c);
+    setTimeout(()=>c.remove(), 1400);
+  }
+  setTimeout(()=>{ layer.style.display="none"; }, 900);
+}
+function showWrongFX(){
+  const layer = el("fxLayer");
+  const badge = el("fxBadge");
+  const sad = el("sadFace");
+  badge.textContent = "❌ SAI RỒI!";
+  sad.style.display="block";
+  layer.style.display="block";
+  setTimeout(()=>{ layer.style.display="none"; sad.style.display="none"; }, 900);
+}
+
+/* =========================
+   6) LEADERBOARD (localStorage)
+   ========================= */
+function lbKey(grade, mode){
+  return `KNTT_LB_${grade}_${mode}`;
+}
+function readLB(grade, mode){
+  try{ return JSON.parse(localStorage.getItem(lbKey(grade,mode)) || "[]"); }
+  catch{ return []; }
+}
+function writeLB(grade, mode, list){
+  localStorage.setItem(lbKey(grade,mode), JSON.stringify(list));
+}
+function renderLB(){
+  const list = readLB(state.grade, state.mode);
+  const box = el("leaderboard");
+  box.innerHTML = "";
+  const best = list.length ? Math.max(...list.map(x=>x.score)) : 0;
+  el("bestTxt").textContent = best;
+
+  if(!list.length){
+    box.innerHTML = `<div class="sub">Chưa có kết quả. Chơi xong sẽ tự lưu BXH.</div>`;
+    return;
+  }
+  list.slice(0,10).forEach((x, i)=>{
+    const div = document.createElement("div");
+    div.className="lb-item";
+    div.innerHTML = `
+      <div style="display:flex; gap:10px; align-items:center">
+        <div class="rank">${i+1}</div>
+        <div>
+          <div class="name">${escapeHtml(x.name)}</div>
+          <div class="sub">${x.date} • Chính xác ${x.acc}%</div>
+        </div>
+      </div>
+      <div style="text-align:right">
+        <div class="name">${x.score}</div>
+        <div class="sub">Điểm</div>
+      </div>
+    `;
+    box.appendChild(div);
+  });
+}
+
+/* =========================
+   7) TRẠNG THÁI GAME
+   ========================= */
+const state = {
+  grade: 1,
+  mode: "theolop",
+  pool: [],
+  idx: -1,
+  score: 0,
+  correct: 0,
+  wrong: 0,
+  combo: 0,
+  locked: false,
+  remaining: ROUND.timePerQuestion,
+  tick: null,
+  paused: false,
+  autoNext: true
+};
+
+function setStateText(s){ el("stateTxt").textContent = s; }
+
+function updateTopMeta(){
+  el("modeTxt").textContent = modeLabel(state.mode);
+  el("rateTxt").textContent = ROUND.ttsRate.toFixed(2);
+  el("autoTxt").textContent = state.autoNext ? "ON" : "OFF";
+}
+function groupBy(arr, keyFn){
+  const m = {};
+  for(const x of arr){
+    const k = keyFn(x) || "—";
+    (m[k] ||= []).push(x);
+  }
+  return m;
+}
+function normalizeQuestion(q){
+  const a = (q.a || []).slice(0,4);
+  while(a.length < 4) a.push("—");
+  return { subject: q.subject || "—", q: q.q || "", a, correct: q.correct ?? 0, explain: q.explain || "" };
+}
+
+/* =========================
+   8) CHỌN CÂU THEO ĐÚNG TỈ LỆ
+   ========================= */
+function buildPoolStrict(){
+  let pool = [];
+
+  if(state.mode === "theolop"){
+    const bank = BANK_THEO_LOP[state.grade] || [];
+    const bySub = groupBy(bank, x => x.subject);
+
+    for(const [sub, need] of Object.entries(QUOTA_THEO_LOP)){
+      const arr = bySub[sub] || [];
+      if(arr.length < need){
+        throw new Error(`Thiếu câu môn "${sub}" của Lớp ${state.grade}. Cần ${need} nhưng có ${arr.length}.`);
+      }
+      pool.push(...shuffle(arr).slice(0, need));
     }
 
-    function checkAnswer(choice) {
-        const q = questions[current];
+    pool = shuffle(pool);
+    el("targetTxt").textContent = "30 câu";
 
-        if (choice === q.correct) {
-            document.getElementById("result").innerHTML = "<span class='correct'>🎉 Chính xác!</span>";
-            showFireworks();
-
-            setTimeout(() => {
-                current = (current + 1) % questions.length;
-                loadQuestion();
-            }, 1800);
-
-        } else {
-            document.getElementById("result").innerHTML = "<span class='wrong'>❌ Sai rồi! Hãy thử lại nhé.</span>";
-        }
+  } else {
+    const bank = BANK_MODE[state.mode] || [];
+    const need = QUOTA_MODE[state.mode] || 10;
+    if(bank.length < need){
+      throw new Error(`Thiếu câu cho mạch "${modeLabel(state.mode)}". Cần ${need} nhưng có ${bank.length}.`);
     }
+    pool = shuffle(bank).slice(0, need);
+    el("targetTxt").textContent = `${need} câu`;
+  }
 
-    // Hiệu ứng pháo hoa mini
-    function showFireworks() {
-        const fw = document.getElementById("fireworks");
-        fw.style.display = "block";
-        setTimeout(() => { fw.style.display = "none"; }, 1200);
+  pool = pool.map(q => normalizeQuestion(q));
+  state.pool = pool;
+  el("qTotal").textContent = pool.length;
+  return pool;
+}
+
+/* =========================
+   9) TIMER
+   ========================= */
+function stopTick(){
+  if(state.tick){
+    clearInterval(state.tick);
+    state.tick = null;
+  }
+}
+function startTick(){
+  stopTick();
+  state.tick = setInterval(()=>{
+    if(state.paused) return;
+    state.remaining -= 1;
+    el("timer").textContent = formatTimer(state.remaining);
+    if(state.remaining <= 0){
+      stopTick();
+      timeOut();
     }
+  }, 1000);
+}
 
-    loadQuestion();
+/* =========================
+   10) HIỂN THỊ + CHƠI
+   ========================= */
+function updateHud(){
+  el("score").textContent = state.score;
+  el("correct").textContent = state.correct;
+  el("wrong").textContent = state.wrong;
+  el("combo").textContent = state.combo;
+  el("qIndex").textContent = Math.max(0, state.idx+1);
+  el("qTotal").textContent = state.pool.length;
+}
+function disableAnswers(disabled){
+  el("answers").querySelectorAll("button.ans").forEach(b=> b.disabled = disabled);
+}
+function speakCurrent(){
+  if(state.idx < 0 || state.idx >= state.pool.length) return;
+  const q = state.pool[state.idx];
+  const labels = ["A","B","C","D"];
+
+  // Nếu là Toán: đọc phép tính rõ
+  let qRead = q.q;
+  if((q.subject || "").includes("Toán")){
+    qRead = toVietnameseMathRead(qRead);
+  }
+
+  const text = [
+    `Môn ${q.subject}.`,
+    `Câu ${state.idx+1}.`,
+    qRead,
+    `A. ${q.a[0]}.`,
+    `B. ${q.a[1]}.`,
+    `C. ${q.a[2]}.`,
+    `D. ${q.a[3]}.`,
+    `Em chọn đáp án nào?`
+  ].join(" ");
+  speak(text);
+}
+function renderQuestion(){
+  state.locked = false;
+  state.remaining = ROUND.timePerQuestion;
+  el("timer").textContent = formatTimer(state.remaining);
+
+  const q = state.pool[state.idx];
+  el("subjectTxt").textContent = q.subject;
+  el("question").textContent = q.q;
+
+  const labels = ["A","B","C","D"];
+  const box = el("answers");
+  box.innerHTML = "";
+
+  q.a.forEach((txt, i)=>{
+    const btn = document.createElement("button");
+    btn.className = "ans";
+    btn.innerHTML = `<div class="badge">${labels[i]}</div><div>${escapeHtml(txt)}</div>`;
+    btn.onclick = ()=> choose(i);
+    box.appendChild(btn);
+  });
+
+  el("hintBox").style.display = "none";
+  updateHud();
+  setStateText("Đang chơi");
+
+  setTimeout(()=> speakCurrent(), 180);
+  startTick();
+}
+
+function revealAnswer(chosenIndex){
+  const q = state.pool[state.idx];
+  const btns = el("answers").querySelectorAll("button.ans");
+
+  btns.forEach((b, i)=>{
+    if(i === q.correct) b.classList.add("good");
+    else if(chosenIndex !== null && i === chosenIndex) b.classList.add("bad");
+    b.disabled = true;
+  });
+
+  el("hintBox").style.display = "block";
+  el("hintBox").innerHTML = `<div class="sub"><b>Gợi ý/Minh chứng:</b> ${escapeHtml(q.explain || "—")}</div>`;
+}
+
+function timeOut(){
+  if(state.locked) return;
+  state.locked = true;
+  state.wrong += 1;
+  state.combo = 0;
+  updateHud();
+  revealAnswer(null);
+  if(sfxOn) sfxWrong();
+  showWrongFX();
+  setStateText("Hết giờ");
+  toast("⏱️ Hết giờ!");
+  autoNextIfEnabled();
+}
+
+function choose(i){
+  if(state.locked || state.paused) return;
+  state.locked = true;
+  stopTick();
+
+  const q = state.pool[state.idx];
+  const isRight = (i === q.correct);
+
+  if(isRight){
+    state.correct += 1;
+    state.combo += 1;
+
+    let pts = 100;
+    const spent = ROUND.timePerQuestion - state.remaining;
+    const fastBonus = Math.max(0, Math.min(60, Math.round((Math.max(0, ROUND.fastWindow - spent)) * 5)));
+    pts += fastBonus;
+    pts += Math.min(120, state.combo * 10);
+    state.score += pts;
+
+    if(sfxOn) sfxCorrect();
+    showCorrectFX();
+    setStateText("Đúng");
+    toast(`🎉 Đúng rồi! +${pts} điểm`);
+  } else {
+    state.wrong += 1;
+    state.combo = 0;
+    if(sfxOn) sfxWrong();
+    showWrongFX();
+    setStateText("Sai");
+    toast("😢 Sai mất rồi!");
+  }
+
+  updateHud();
+  revealAnswer(i);
+  autoNextIfEnabled();
+}
+
+function autoNextIfEnabled(){
+  if(!state.autoNext) return;
+  setTimeout(()=> nextQuestion(), ROUND.autoNextDelayMs);
+}
+
+function nextQuestion(){
+  state.idx += 1;
+  if(state.idx >= state.pool.length){
+    finishRound();
+    return;
+  }
+  renderQuestion();
+}
+
+function startGame(){
+  ensureAudio();
+  if(audioCtx.state === "suspended") audioCtx.resume();
+
+  try{
+    buildPoolStrict();
+  }catch(err){
+    toast("❗ " + err.message);
+    console.error(err);
+    return;
+  }
+
+  state.score = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.combo = 0;
+  state.idx = -1;
+  updateHud();
+
+  setStateText("Bắt đầu");
+  toast("Bắt đầu vòng chơi!");
+  nextQuestion();
+}
+
+function finishRound(){
+  stopTick();
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+
+  disableAnswers(true);
+  setStateText("Kết thúc");
+
+  const total = state.pool.length || 1;
+  const acc = Math.round((state.correct/total) * 100);
+
+  el("subjectTxt").textContent = "—";
+  el("question").textContent = `🎉 Hoàn thành! Điểm: ${state.score} • Đúng: ${state.correct}/${total} (${acc}%)`;
+  el("answers").innerHTML = `
+    <div class="kpi" style="grid-column:1/-1">
+      <div class="k">Gợi ý/Minh chứng</div>
+      <div class="v" style="font-size:16px">
+        Game phân mạch, hiển thị môn, có đọc tự động, có minh chứng sau mỗi câu, tính điểm & xếp hạng.
+      </div>
+    </div>
+  `;
+  el("hintBox").style.display = "block";
+  el("hintBox").innerHTML = `<div class="sub"><b>Gợi ý:</b> Nhập tên lớp/nhóm để lưu BXH (minh họa tính lan tỏa).</div>`;
+
+  // Lưu BXH “nhanh gọn” (không bật modal để khỏi rườm khi thi)
+  const name = prompt("Nhập tên hiển thị (VD: Lớp 4A - Nhóm 2). Nếu bỏ trống sẽ lưu mặc định:") || `Lớp ${state.grade} - Nhóm`;
+  const item = { name, score: state.score, acc, date: new Date().toLocaleString("vi-VN", { hour12:false }) };
+  const list = readLB(state.grade, state.mode);
+  list.push(item);
+  list.sort((a,b)=> (b.score-a.score) || (b.acc-a.acc));
+  writeLB(state.grade, state.mode, list.slice(0, 50));
+  renderLB();
+}
+
+/* =========================
+   11) RESET
+   ========================= */
+function resetGame(){
+  state.idx = -1;
+  state.score = 0;
+  state.correct = 0;
+  state.wrong = 0;
+  state.combo = 0;
+  state.locked = false;
+  state.remaining = ROUND.timePerQuestion;
+  state.paused = false;
+
+  stopTick();
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+
+  el("question").textContent = "Bấm “Bắt đầu” để chơi.";
+  el("answers").innerHTML = "";
+  el("hintBox").style.display = "block";
+  el("hintBox").innerHTML = `<div class="sub"><b>Gợi ý/Minh chứng</b> sẽ hiện sau mỗi câu.</div>`;
+  el("subjectTxt").textContent = "—";
+
+  el("score").textContent = "0";
+  el("correct").textContent = "0";
+  el("wrong").textContent = "0";
+  el("combo").textContent = "0";
+  el("qIndex").textContent = "0";
+  el("timer").textContent = formatTimer(state.remaining);
+
+  el("btnPause").textContent = "⏸️ Tạm dừng";
+  setStateText("Sẵn sàng");
+  renderLB();
+}
+
+/* =========================
+   12) SỰ KIỆN
+   ========================= */
+el("gradeSel").addEventListener("change", (e)=>{
+  state.grade = Number(e.target.value);
+  resetGame();
+  updateTopMeta();
+});
+el("modeSel").addEventListener("change", (e)=>{
+  state.mode = e.target.value;
+  resetGame();
+  updateTopMeta();
+});
+
+el("btnStart").addEventListener("click", startGame);
+el("btnNext").addEventListener("click", ()=>{
+  if(state.idx < 0) startGame();
+  else nextQuestion();
+});
+el("btnRestart").addEventListener("click", ()=>{
+  resetGame();
+  startGame();
+});
+
+el("btnSpeak").addEventListener("click", ()=>{
+  if(state.idx < 0) { toast("Chưa vào câu hỏi."); return; }
+  speakCurrent();
+});
+
+el("btnPause").addEventListener("click", ()=>{
+  if(state.idx < 0){ toast("Chưa bắt đầu."); return; }
+  state.paused = !state.paused;
+  el("btnPause").textContent = state.paused ? "▶️ Tiếp tục" : "⏸️ Tạm dừng";
+  setStateText(state.paused ? "Tạm dừng" : "Đang chơi");
+  if(state.paused){
+    try{ window.speechSynthesis.cancel(); }catch(e){}
+  }else{
+    setTimeout(()=> speakCurrent(), 160);
+  }
+});
+
+el("btnExit").addEventListener("click", ()=>{
+  stopTick();
+  try{ window.speechSynthesis.cancel(); }catch(e){}
+  resetGame();
+  toast("Đã kết thúc.");
+});
+
+el("btnSfx").addEventListener("click", async ()=>{
+  sfxOn = !sfxOn;
+  el("btnSfx").textContent = `🔔 Đúng/Sai: ${sfxOn ? "ON" : "OFF"}`;
+  toast(sfxOn ? "Bật âm đúng/sai." : "Tắt âm đúng/sai.");
+  if(sfxOn){
+    ensureAudio();
+    if(audioCtx.state === "suspended") await audioCtx.resume();
+  }
+});
+
+el("btnAuto").addEventListener("click", ()=>{
+  state.autoNext = !state.autoNext;
+  el("btnAuto").textContent = `⏭️ Tự chuyển: ${state.autoNext ? "ON" : "OFF"}`;
+  updateTopMeta();
+  toast(state.autoNext ? "Bật tự chuyển câu." : "Tắt tự chuyển câu.");
+});
+
+el("btnFullscreen").addEventListener("click", ()=>{
+  const doc = document.documentElement;
+  if(!document.fullscreenElement){
+    doc.requestFullscreen?.();
+    toast("Toàn màn hình bật.");
+  }else{
+    document.exitFullscreen?.();
+    toast("Thoát toàn màn hình.");
+  }
+});
+
+el("btnClearLB").addEventListener("click", ()=>{
+  if(confirm("Xoá bảng xếp hạng của lớp + mạch hiện tại?")){
+    writeLB(state.grade, state.mode, []);
+    renderLB();
+    toast("Đã xoá BXH.");
+  }
+});
+
+/* =========================
+   13) INIT
+   ========================= */
+(function init(){
+  loadVoices();
+  if("speechSynthesis" in window){
+    window.speechSynthesis.onvoiceschanged = loadVoices;
+  }
+  state.grade = Number(el("gradeSel").value);
+  state.mode = el("modeSel").value;
+
+  updateTopMeta();
+  resetGame();
+
+  // đảm bảo audio mở khi người dùng click
+  document.addEventListener("click", ()=>{
+    if(!audioCtx) return;
+    if(audioCtx.state === "suspended") audioCtx.resume();
+  }, { once:true });
+})();
 </script>
-
 </body>
 </html>
+
+ 
+
+
+    
+
+
+
+
+    
+
+    
+
+
+
 
